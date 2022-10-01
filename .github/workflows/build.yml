@@ -42,13 +42,8 @@ jobs:
           servers: |
             [{
                 "id": "github.ressec.maven.registry",
-                "username": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_USER }}",
-                "password": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_TOKEN }}"
-            },
-            {
-                "id": "github.hemajoo-commerce.maven.registry",
-                "username": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_USER }}",
-                "password": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_TOKEN }}"
+                "username": "${{ secrets.READ_REGISTRY_USER }}",
+                "password": "${{ secrets.READ_REGISTRY_TOKEN }}"
             }]
 
       - name: Build with Maven
@@ -94,13 +89,8 @@ jobs:
           servers: |
             [{
                 "id": "github.ressec.maven.registry",
-                "username": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_USER }}",
-                "password": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_TOKEN }}"
-            },
-            {
-                "id": "github.hemajoo-commerce.maven.registry",
-                "username": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_USER }}",
-                "password": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_TOKEN }}"
+                "username": "${{ secrets.READ_REGISTRY_USER }}",
+                "password": "${{ secrets.READ_REGISTRY_TOKEN }}"
             }]
 
       - name: Static Code Analysis
@@ -151,13 +141,8 @@ jobs:
           servers: |
             [{
                 "id": "github.ressec.maven.registry",
-                "username": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_USER }}",
-                "password": "${{ secrets.READ_MAVEN_REGISTRY_GITHUB_TOKEN }}"
-            },
-            {
-                "id": "github.hemajoo-commerce.maven.registry",
-                "username": "${{ secrets.DEPLOY_MAVEN_REGISTRY_GITHUB_USER }}",
-                "password": "${{ secrets.DEPLOY_MAVEN_REGISTRY_GITHUB_TOKEN }}"
+                "username": "${{ secrets.READ_REGISTRY_USER }}",
+                "password": "${{ secrets.READ_REGISTRY_TOKEN }}"
             }]
 
       - name: Deploy Maven Artifacts
