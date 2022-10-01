@@ -6,22 +6,13 @@
 
     <parent>
         <groupId>com.hemajoo</groupId>
-        <artifactId>hemajoo</artifactId>
+        <artifactId>hemajoo-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>commons</artifactId>
+    <artifactId>hemajoo-i18n</artifactId>
     <packaging>jar</packaging>
-    <name>Hemajoo Commons</name>
-    <description>Hemajoo commons project.</description>
-
-    <dependencies>
-
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-        </dependency>
-
-    </dependencies>
+    <name>Hemajoo i18n</name>
+    <description>Provide entities to ease internationalization and translations.</description>
 
 </project>

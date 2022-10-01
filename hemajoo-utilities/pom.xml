@@ -6,11 +6,14 @@
 
     <parent>
         <groupId>com.hemajoo</groupId>
-        <artifactId>hemajoo</artifactId>
+        <artifactId>hemajoo-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>utilities</artifactId>
+    <artifactId>hemajoo-utilities</artifactId>
+    <packaging>jar</packaging>
+    <name>Hemajoo Utilities</name>
+    <description>Provide Hemajoo utilities.</description>
 
     <dependencies>
 

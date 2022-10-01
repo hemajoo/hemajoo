@@ -6,10 +6,13 @@
 
     <parent>
         <groupId>com.hemajoo</groupId>
-        <artifactId>hemajoo</artifactId>
+        <artifactId>hemajoo-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>i18n</artifactId>
+    <artifactId>hemajoo-coverage</artifactId>
+    <packaging>jar</packaging>
+    <name>Hemajoo Code Coverage</name>
+    <description>Aggregate the code coverage reports for the modules of the Hemajoo multimodule project.</description>
 
 </project>

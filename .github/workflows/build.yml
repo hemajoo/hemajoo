@@ -165,10 +165,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode deploy -Dmaven.test.skip=true -f pom.xml -Pjava.17
 
-      # Cleanup old artefacts
+      # Cleanup artefacts
       - uses: actions/delete-package-versions@v3
         with:
-          package-name: 'hemajoo'
+          package-name: 'hemajoo-parent'
           min-versions-to-keep: 5
       - uses: actions/delete-package-versions@v3
         with:
