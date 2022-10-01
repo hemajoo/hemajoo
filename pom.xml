@@ -126,9 +126,9 @@
     <distributionManagement>
 
         <repository>
-            <id>github.hemajoo-commerce.maven.registry</id>
-            <name>GitHub Hemajoo Commerce - Maven Registry</name>
-            <url>https://maven.pkg.github.com/hemajoo-commerce/maven-registry</url>
+            <id>github.hemajoo.maven.registry</id>
+            <name>GitHub Hemajoo - Maven Registry</name>
+            <url>https://maven.pkg.github.com/hemajoo/maven-registry</url>
         </repository>
 
     </distributionManagement>
@@ -158,9 +158,9 @@
         </repository>
 
         <repository>
-            <id>github.hemajoo-commerce.maven.registry</id>
-            <name>GitHub Hemajoo Commerce - Maven Registry</name>
-            <url>https://maven.pkg.github.com/hemajoo-commerce/*</url>
+            <id>github.hemajoo.maven.registry</id>
+            <name>GitHub Hemajoo - Maven Registry</name>
+            <url>https://maven.pkg.github.com/hemajoo/*</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
