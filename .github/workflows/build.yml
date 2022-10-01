@@ -155,9 +155,9 @@ jobs:
                 "password": "${{ secrets.READ_REGISTRY_TOKEN }}"
             },
             {
-                "id": "github.hemajoo-commerce.maven.registry",
-                "username": "${{ secrets.READ_REGISTRY_USER }}",
-                "password": "${{ secrets.READ_REGISTRY_TOKEN }}"
+                "id": "github.hemajoo.maven.registry",
+                "username": "${{ secrets.DEPLOY_REGISTRY_USER }}",
+                "password": "${{ secrets.DEPLOY_REGISTRY_TOKEN }}"
             }]
 
       - name: Deploy Maven Artifacts
