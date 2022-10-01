@@ -34,7 +34,7 @@
 
         <dependency>
             <groupId>com.hemajoo</groupId>
-            <artifactId>commons</artifactId>
+            <artifactId>hemajoo-commons</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
