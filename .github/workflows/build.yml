@@ -165,24 +165,33 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode deploy -Dmaven.test.skip=true -f pom.xml -Pjava.17
 
-      # Cleanup artefacts
+  cleanup:
+
+    name: Cleanup Maven Artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [ build, sonar, deploy ]
+
+    steps:
       - uses: actions/delete-package-versions@v3
         with:
-          package-name: 'hemajoo-parent'
+          package-name: 'com.hemajoo:hemajoo-parent'
           min-versions-to-keep: 5
       - uses: actions/delete-package-versions@v3
         with:
-          package-name: 'hemajoo-commons'
+          package-name: 'com.hemajoo:hemajoo-commons'
           min-versions-to-keep: 5
       - uses: actions/delete-package-versions@v3
         with:
-          package-name: 'hemajoo-utilities'
+          package-name: 'com.hemajoo:hemajoo-utilities'
           min-versions-to-keep: 5
       - uses: actions/delete-package-versions@v3
         with:
-          package-name: 'hemajoo-i18n'
+          package-name: 'com.hemajoo:hemajoo-i18n'
           min-versions-to-keep: 5
       - uses: actions/delete-package-versions@v3
         with:
-          package-name: 'hemajoo-coverage'
+          package-name: 'com.hemajoo:hemajoo-coverage'
           min-versions-to-keep: 5
