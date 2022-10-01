@@ -128,7 +128,7 @@
         <repository>
             <id>github.hemajoo.maven.registry</id>
             <name>GitHub Hemajoo - Maven Registry</name>
-            <url>https://maven.pkg.github.com/hemajoo/maven-registry</url>
+            <url>https://maven.pkg.github.com/hemajoo/hemajoo</url>
         </repository>
 
     </distributionManagement>

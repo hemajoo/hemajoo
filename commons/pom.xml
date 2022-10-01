@@ -11,6 +11,9 @@
     </parent>
 
     <artifactId>commons</artifactId>
+    <packaging>jar</packaging>
+    <name>Hemajoo Commons</name>
+    <description>Hemajoo commons project.</description>
 
     <dependencies>
 
