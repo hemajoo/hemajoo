@@ -102,7 +102,7 @@ jobs:
   deploy:
 
     name: Deploy Artifacts
-    if: github.event.pull_request.base.ref == 'main' # Only deploy artifacts when merging in main branch (merge of the PR).
+    #if: github.event.pull_request.base.ref == 'main' # Only deploy artifacts when merging in main branch (merge of the PR).
     runs-on: ubuntu-latest
     permissions:
       contents: read
