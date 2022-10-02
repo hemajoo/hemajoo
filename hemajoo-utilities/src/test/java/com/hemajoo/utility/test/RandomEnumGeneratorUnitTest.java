@@ -20,8 +20,10 @@ import com.hemajoo.utility.test.internal.AnimalType;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Log4j2
 class RandomEnumGeneratorUnitTest
@@ -46,5 +48,23 @@ class RandomEnumGeneratorUnitTest
         AnimalType animal = (AnimalType) animalGenerator.exclude(AnimalType.BIRD).exclude(AnimalType.FISH).generate();
 
         assertThat(animal).isNotNull().isNotEqualTo(AnimalType.BIRD).isNotEqualTo(AnimalType.FISH);
+    }
+
+    @Test
+    @DisplayName("Cannot generate a pseudo-random enumerated value when all values are excluded")
+    final void testCannotGenerateRandomEnumeratedValueWhenAllValuesExcluded()
+    {
+        assertThatThrownBy(() -> animalGenerator
+                .exclude(AnimalType.BIRD)
+                .exclude(AnimalType.FISH)
+                .exclude(AnimalType.CAT)
+                .exclude(AnimalType.DOG)
+                .exclude(AnimalType.CROCODILE)
+                .exclude(AnimalType.EAGLE)
+                .exclude(AnimalType.ELEPHANT)
+                .exclude(AnimalType.TIGER)
+                .exclude(AnimalType.SHARK)
+                .generate())
+                .isInstanceOf(GeneratorException.class);
     }
 }
