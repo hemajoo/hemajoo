@@ -58,6 +58,16 @@ public final class RandomEnumGenerator
     }
 
     /**
+     * Static service to create an enumeration generator.
+     * @param enumClass Enumeration class.
+     * @return {@link RandomEnumGenerator}.
+     */
+    public static RandomEnumGenerator of(final @NonNull Class<? extends Enum<?>> enumClass)
+    {
+        return new RandomEnumGenerator(enumClass);
+    }
+
+    /**
      * Exclude a value from the generation of possible enumerated values.
      * @param value Enumerated value.
      * @return {@link RandomEnumGenerator}.
