@@ -108,7 +108,7 @@
 
         <!-- Sonar properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../hemajoo-coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
         <sonar.java.libraries>target/classes</sonar.java.libraries>
         <sonar.organization>hemajoo</sonar.organization>
@@ -667,21 +667,6 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${version.plugin.maven.jacoco}</version>
-                <executions>
-                    <execution>
-                        <id>prepare</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <!-- SONAR: The Maven Project Sonar plugin is used to execute static analysis on the code. -->
@@ -725,6 +710,26 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>antrun-plugin</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo>'sonar.coverage.jacoco.xmlReportPaths': ${sonar.coverage.jacoco.xmlReportPaths}</echo>
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
