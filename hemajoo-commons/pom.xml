@@ -15,6 +15,10 @@
     <name>Hemajoo Commons</name>
     <description>Contains Hemajoo Common entities.</description>
 
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
+
     <dependencies>
 
         <dependency>

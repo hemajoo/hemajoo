@@ -52,6 +52,7 @@
         <project.directory.db>${basedir}/db</project.directory.db>
         <test.pattern.unit>**/*UnitTest.java</test.pattern.unit>
         <test.pattern.integration>**/*IntegrationTest.java</test.pattern.integration>
+        <maven.deploy.skip>true</maven.deploy.skip>
 
         <!-- Spring  properties -->
         <version.spring.boot>2.7.3</version.spring.boot>
