@@ -36,7 +36,7 @@ public final class RandomNumberGenerator
     /**
      * Min and max bounds error.
      */
-    public static final String MIN_MAX_ERROR = "lower bound must be less than or equal to higher bound!";
+    public static final String MIN_MAX_ERROR = "Lower bound must be less than or equal to higher bound!";
 
     /**
      * Set the seed of the random number generator.
@@ -78,7 +78,7 @@ public final class RandomNumberGenerator
     public static long nextLong(final long max)
     {
         return RANDOM
-                .longs(0, max + 1)
+                .longs(0, (max == Long.MAX_VALUE ? max : max + 1))
                 .findFirst()
                 .orElseThrow();
     }
@@ -91,10 +91,10 @@ public final class RandomNumberGenerator
      */
     public static long nextLong(final long min, final long max)
     {
-        Preconditions.checkArgument(min < max, MIN_MAX_ERROR);
+        Preconditions.checkArgument(min < (max == Long.MAX_VALUE ? max : max + 1), MIN_MAX_ERROR);
 
         return RANDOM
-                .longs(min, max + 1)
+                .longs(min, (max == Long.MAX_VALUE ? max : max + 1))
                 .findFirst()
                 .orElseThrow();
     }
@@ -130,7 +130,7 @@ public final class RandomNumberGenerator
     public static double nextDouble(final double max)
     {
         return RANDOM
-                .doubles(0, max + 1)
+                .doubles(0, max)
                 .findFirst()
                 .orElseThrow();
     }
@@ -146,7 +146,7 @@ public final class RandomNumberGenerator
         Preconditions.checkArgument(min < max, MIN_MAX_ERROR);
 
         return RANDOM
-                .doubles(min, max + 1)
+                .doubles(min, max)
                 .findFirst()
                 .orElseThrow();
     }
