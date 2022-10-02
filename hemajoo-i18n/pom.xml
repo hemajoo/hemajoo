@@ -15,6 +15,10 @@
     <name>Hemajoo i18n</name>
     <description>Provide entities to ease internationalization and translations.</description>
 
+    <properties>
+        <maven.deploy.skip>false</maven.deploy.skip>
+    </properties>
+
     <build>
 
         <plugins>
