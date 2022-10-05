@@ -108,7 +108,7 @@ public class StringExpander
         {
             if (name.equals("this") && instance.getClass().isEnum())
             {
-                result = StringExpander.expandVariable(result, name, ((Enum<?>) instance).name());
+                result = StringExpander.expand(result, name, ((Enum<?>) instance).name());
             }
             else
             {
@@ -122,7 +122,7 @@ public class StringExpander
                     {
                         value = ((Enum<?>) value).name();
                     }
-                    result = StringExpander.expandVariable(result, name, (String) value);
+                    result = StringExpander.expand(result, name, (String) value);
                 }
                 catch (Exception e)
                 {
@@ -135,13 +135,13 @@ public class StringExpander
     }
 
     /**
-     * Expand/replace the given variable with a value in a given string.
-     * @param source String containing the variable to expand/replace.
-     * @param variable Variable to expand.
-     * @param value Value for the variable to expand.
-     * @return Expanded string.
+     * Expand the given variable with a value in a given string.
+     * @param source String containing the variable to resolve.
+     * @param variable Variable to resolve in the source string.
+     * @param value Value for the variable to resolve.
+     * @return String with expanded variable.
      */
-    private static String expandVariable(final @NonNull String source, final @NonNull String variable, final @NonNull String value)
+    public static String expand(final @NonNull String source, final @NonNull String variable, final @NonNull String value)
     {
         String pattern = ("${" + variable + "}");
         return source.replace(pattern, value);
