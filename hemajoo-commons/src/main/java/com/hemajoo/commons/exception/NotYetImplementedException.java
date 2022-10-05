@@ -34,7 +34,7 @@ public class NotYetImplementedException extends RuntimeException
      */
     public NotYetImplementedException()
     {
-        super();
+        super("Not yet implemented exception!");
     }
 
     /**
