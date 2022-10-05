@@ -118,6 +118,10 @@ public class StringExpander
                     declaringClass = instance.getClass();
                     method = declaringClass.getMethod("get" + StringUtils.capitalize(field.getName()));
                     value = method.invoke(instance);
+                    if (value instanceof Enum<?>)
+                    {
+                        value = ((Enum<?>) value).name();
+                    }
                     result = StringExpander.expand(result, name, (String) value);
                 }
                 catch (Exception e)
