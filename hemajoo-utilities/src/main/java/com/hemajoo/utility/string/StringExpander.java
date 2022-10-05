@@ -148,6 +148,20 @@ public class StringExpander
     }
 
     /**
+     * Expand the given variable with a value in a given string.
+     * @param character Character used for variable pattern (ex.: standard is $ -> ${variable} but you are free to use another one).
+     * @param source String containing the variable to resolve.
+     * @param variable Variable to resolve in the source string.
+     * @param value Value for the variable to resolve.
+     * @return String with expanded variable.
+     */
+    public static String expand(final @NonNull String character, final @NonNull String source, final @NonNull String variable, final @NonNull String value)
+    {
+        String pattern = (character.substring(0, 1) + "{" + variable + "}");
+        return source.replace(pattern, value);
+    }
+
+    /**
      * Return the field name given its getter method name.
      * @param getterName Getter method name.
      * @return Field nane.
