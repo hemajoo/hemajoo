@@ -17,17 +17,12 @@ package com.hemajoo.commons.exception;
 import java.io.Serial;
 
 /**
- * Exception (unchecked) thrown to indicate a service is not yet implemented.
+ * Exception thrown to indicate an error occurred with a <b>Hemajoo</b> database unit test.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-public class NotYetImplementedException extends RuntimeException
+public class HemajooDatabaseUnitTestException extends HemajooException
 {
-    /**
-     * Exception message.
-     */
-    private static final String MESSAGE = " is not yet implemented!";
-
     /**
      * Default serialization identifier.
      */
@@ -35,38 +30,30 @@ public class NotYetImplementedException extends RuntimeException
     private static final long serialVersionUID = 1L;
 
     /**
-     * Thrown to indicate a service is not yet implemented.
-     */
-    public NotYetImplementedException()
-    {
-        super("Not yet implemented!");
-    }
-
-    /**
-     * Thrown to indicate a service is not yet implemented.
+     * Thrown to indicate that an error occurred with a <b>Hemajoo</b> database unit test.
      * @param exception Parent exception.
      */
-    public NotYetImplementedException(final Exception exception)
+    public HemajooDatabaseUnitTestException(final Exception exception)
     {
         super(exception);
     }
 
     /**
-     * Thrown to indicate a service is not yet implemented.
+     * Thrown to indicate that an error occurred with a <b>Hemajoo</b> database unit test.
      * @param message Message describing the error being the cause of the raised exception.
      */
-    public NotYetImplementedException(final String message)
+    public HemajooDatabaseUnitTestException(final String message)
     {
-        super(message + MESSAGE);
+        super(message);
     }
 
     /**
-     * Thrown to indicate a service is not yet implemented.
+     * Thrown to indicate that an error occurred with a <b>Hemajoo</b> database unit test.
      * @param message Message describing the error being the cause of the raised exception.
      * @param exception Parent exception.
      */
-    public NotYetImplementedException(final String message, final Exception exception)
+    public HemajooDatabaseUnitTestException(final String message, final Exception exception)
     {
-        super(message + MESSAGE, exception);
+        super(message, exception);
     }
 }

@@ -59,7 +59,7 @@
         <log4j2.version>2.18.0</log4j2.version> <!-- Forces Spring to use this version of log4j2 -->
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
 
-        <!-- Maven plugins version properties. Last update on 2022/03/13 -->
+        <!-- Maven plugins version properties. -->
         <version.maven.plugin.compiler>3.10.1</version.maven.plugin.compiler>
         <version.maven.plugin.jar>3.2.2</version.maven.plugin.jar>
         <version.maven.plugin.javadoc>3.4.0</version.maven.plugin.javadoc>
@@ -93,7 +93,7 @@
         <version.apache.tika>1.0.18</version.apache.tika>
         <version.hibernate.validator>7.0.1.Final</version.hibernate.validator>
         <version.javers>3.1.0</version.javers>
-        <version.testcontainers>1.17.3</version.testcontainers>
+        <version.testcontainers>1.17.5</version.testcontainers>                                                     <!-- Last updated: 2022-10-08 -->
         <version.db.h2>2.1.212</version.db.h2>
         <version.db.postgresql>42.4.1</version.db.postgresql>
         <version.spring.content>2.5.0</version.spring.content>
@@ -215,11 +215,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${version.spring.boot}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
+                <version>${version.spring.boot}</version>
                 <scope>test</scope>
                 <exclusions>
                     <exclusion>
@@ -233,7 +235,7 @@
                 </exclusions>
             </dependency>
 
-            <!-- JUnit Jupiter -->
+            <!-- JUnit Jupiter (Junit 5) -->
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-launcher</artifactId>
@@ -281,65 +283,45 @@
                 <version>${version.springdoc.openapi}</version>
             </dependency>
 
-            <!-- Spring Content Store: REST -->
-            <dependency>
-                <groupId>com.github.paulcwarren</groupId>
-                <artifactId>spring-content-rest-boot-starter</artifactId>
-                <version>${version.spring.content}</version>
-            </dependency>
+<!--            &lt;!&ndash; Spring Content Store: REST &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.github.paulcwarren</groupId>-->
+<!--                <artifactId>spring-content-rest-boot-starter</artifactId>-->
+<!--                <version>${version.spring.content}</version>-->
+<!--            </dependency>-->
 
-            <!-- Spring Content Store: File System -->
-            <dependency>
-                <groupId>com.github.paulcwarren</groupId>
-                <artifactId>spring-content-fs-boot-starter</artifactId>
-                <version>${version.spring.content}</version>
-            </dependency>
+<!--            &lt;!&ndash; Spring Content Store: File System &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.github.paulcwarren</groupId>-->
+<!--                <artifactId>spring-content-fs-boot-starter</artifactId>-->
+<!--                <version>${version.spring.content}</version>-->
+<!--            </dependency>-->
 
-            <!-- Spring Content Store: Amazon S3 -->
-            <dependency>
-                <groupId>com.github.paulcwarren</groupId>
-                <artifactId>content-s3-spring-boot-starter</artifactId>
-                <version>${version.spring.content}</version>
-            </dependency>
+<!--            &lt;!&ndash; Spring Content Store: Amazon S3 &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.github.paulcwarren</groupId>-->
+<!--                <artifactId>content-s3-spring-boot-starter</artifactId>-->
+<!--                <version>${version.spring.content}</version>-->
+<!--            </dependency>-->
 
-            <dependency>
-                <groupId>com.github.paulcwarren</groupId>
-                <artifactId>spring-content-s3</artifactId>
-                <version>${version.spring.content}</version>
-            </dependency>
-
-            <!-- Postgresql database -->
-            <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${version.db.postgresql}</version>
-                <scope>runtime</scope>
-            </dependency>
-
-            <!-- H2 (in-memory) database -->
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${version.db.h2}</version>
-                <scope>test</scope>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.github.paulcwarren</groupId>-->
+<!--                <artifactId>spring-content-s3</artifactId>-->
+<!--                <version>${version.spring.content}</version>-->
+<!--            </dependency>-->
 
             <!-- Test Containers -->
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers</artifactId>
+                <version>${version.testcontainers}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.testcontainers</groupId>
-                <artifactId>postgresql</artifactId>
+                <version>${version.testcontainers}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -349,6 +331,58 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>2.13.4</version>
             </dependency>
+
+            <!-- Postgresql JDBC drivers -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${version.db.postgresql}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <!-- H2 (in-memory) JDBC drivers -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${version.db.h2}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- MariaDB JDBC drivers -->
+            <dependency>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>3.0.8</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- MySQL JDBC drivers -->
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>mssql-jdbc</artifactId>
+                <version>11.2.1.jre17</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- OrientDB JDBC drivers -->
+            <dependency>
+                <groupId>com.orientechnologies</groupId>
+                <artifactId>orientdb-client</artifactId>
+                <version>3.2.10</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Neo4j JDBC drivers -->
+            <dependency>
+                <groupId>org.neo4j.driver</groupId>
+                <artifactId>neo4j-java-driver</artifactId>
+                <version>5.1.0</version>
+                <scope>test</scope>
+            </dependency>
+
+
+
+
 
 
 
