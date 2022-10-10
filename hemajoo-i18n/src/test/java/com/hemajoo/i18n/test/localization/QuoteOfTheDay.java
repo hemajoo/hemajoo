@@ -12,43 +12,33 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
+package com.hemajoo.i18n.test.localization;
 
-package com.hemajoo.commons.test.core;
-
+import com.hemajoo.i18n.core.annotation.I18n;
+import com.hemajoo.i18n.core.localization.Localize;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
-public class DatabaseTestConfiguration
+@I18n(bundle = "i18n/test")
+public final class QuoteOfTheDay implements Localize
 {
-    /**
-     * Datasource URL.
-     */
     @Getter
+    private final String quoteNumber;
+
     @Setter
-    @Value("${spring.datasource.url}")
-    protected String datasourceUrl;
-
-    /**
-     * Datasource user name.
-     */
     @Getter
-    @Value("${spring.datasource.username}")
-    protected String datasourceUsername;
+    @I18n(key = "com.hemajoo.commerce.cherry.base.i18n.quote.${quoteNumber}.name")
+    private String quoteName;
 
-    /**
-     * Datasource user name.
-     */
+    @Setter
     @Getter
-    @Value("${spring.datasource.password}")
-    protected String datasourcePassword;
+    @I18n(key = "com.hemajoo.commerce.cherry.base.i18n.quote.${quoteNumber}.text")
+    private String quoteDescription;
 
-    /**
-     * Datasource database name.
-     */
-    @Getter
-    @Value("${spring.datasource.database-name}")
-    protected String datasourceDbName;
+    @Builder(setterPrefix = "with")
+    public QuoteOfTheDay(final int number)
+    {
+        this.quoteNumber = String.valueOf(number); // Only 1 or 2 at this time!
+    }
 }

@@ -1,10 +1,10 @@
 /*
- * (C) Copyright Hemajoo Systems Inc.  2022 - All Rights Reserved
+ * (C) Copyright Hemajoo Systems Inc. 2021-2022 - All Rights Reserved
  * -----------------------------------------------------------------------------------------------
  * All information contained herein is, and remains the property of
  * Hemajoo Inc. and its suppliers, if any. The intellectual and technical
- * concepts contained herein are proprietary to Hemajoo Inc. and its
- * suppliers and may be covered by U.S. and Foreign Patents, patents
+ * concepts contained herein are proprietary to Hemajoo Systems Inc.
+ * and its suppliers and may be covered by U.S. and Foreign Patents, patents
  * in process, and are protected by trade secret or copyright law.
  *
  * Dissemination of this information or reproduction of this material
@@ -12,32 +12,27 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.commons.test.core;
-
-import com.github.javafaker.Faker;
+package com.hemajoo.i18n.core.localization;
 
 /**
- * Abstract implementation of a <b>Hemajoo</b> unit test.
+ * Enumerate the several <b>localization invocation</b> type values.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-public abstract class AbstractHemajooUnitTest
+public enum LocalizationInvocationType
 {
     /**
-     * Test is not yet implemented.
+     * Localization invocation is unknown.
      */
-    protected static final String TEST_NOT_YET_IMPLEMENTED = "Test not yet implemented!";
+    UNKNOWN,
 
     /**
-     * Java data faker.
+     * Localization invocation has been done through a method.
      */
-    protected static final Faker FAKER = new Faker();
+    METHOD,
 
     /**
-     * Create a new abstract <b>Hemajoo</b> unit test.
+     * Localization invocation has been done through a field.
      */
-    protected AbstractHemajooUnitTest()
-    {
-        // Empty!
-    }
+    FIELD
 }

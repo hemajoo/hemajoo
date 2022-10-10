@@ -14,8 +14,8 @@
  */
 package com.hemajoo.commons.test.database;
 
-import com.hemajoo.commons.test.core.AbstractHemajooUnitTest;
-import com.hemajoo.commons.test.core.DatabaseTestConfiguration;
+import com.hemajoo.commons.core.AbstractHemajooUnitTest;
+import com.hemajoo.commons.core.DatabaseTestConfiguration;
 import com.hemajoo.commons.test.core.container.db.CustomOrientDBContainer;
 import com.hemajoo.commons.test.core.container.db.DatabaseContainerType;
 import com.hemajoo.commons.test.core.container.db.DbContainer;
