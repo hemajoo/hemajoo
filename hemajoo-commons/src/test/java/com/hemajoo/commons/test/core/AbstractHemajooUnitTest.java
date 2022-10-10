@@ -12,7 +12,7 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.commons.test.base;
+package com.hemajoo.commons.test.core;
 
 import com.github.javafaker.Faker;
 
