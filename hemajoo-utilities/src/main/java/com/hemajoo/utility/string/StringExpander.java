@@ -33,42 +33,56 @@ import java.util.List;
 public class StringExpander
 {
     /**
-     * Extract variables found in a given text string (a variable has the format: <code>${variable_name}</code>).
-     * @param text Text containing variables.
-     * @return List of variable names or null if no variable has been found.
+     * Default pattern character specifying a variable in a string.
      */
-    public static List<String> extractVariables(final @NonNull String text)
-    {
-        List<String> variables = new ArrayList<>();
+    private static final char DEFAULT_PATTERN_CHARACTER = '$';
 
-        final String startPattern = "${";
-        final String endPattern = "}";
+    /**
+     * Default pattern additional character specifying the beginning of variable name in a string.
+     */
+    private static final char ENCLOSING_START_CHARACTER = '{';
 
-        int index = -1;
-        int start;
-        int end;
+    /**
+     * Default pattern additional character specifying the end of variable name in a string.
+     */
+    private static final char ENCLOSING_END_CHARACTER = '}';
 
-        while (index < text.length())
-        {
-            start = text.indexOf(startPattern, index);
-            if (start >= index)
-            {
-                end = text.indexOf(endPattern, start);
-                if (end > start)
-                {
-                    variables.add(text.substring(start + startPattern.length(), end));
-                }
-
-                index = end;
-            }
-            else
-            {
-                index = text.length();
-            }
-        }
-
-        return variables;
-    }
+//    /**
+//     * Extract variables found in a given text string (a variable has the format: <code>${variable_name}</code>).
+//     * @param text Text containing variables.
+//     * @return List of variable names or null if no variable has been found.
+//     */
+//    public static List<String> extractVariables(final @NonNull String text)
+//    {
+//        List<String> variables = new ArrayList<>();
+//
+//        final String startPattern = DEFAULT_PATTERN_CHARACTER + String.valueOf(ENCLOSING_START_CHARACTER);
+//
+//        int index = -1;
+//        int start;
+//        int end;
+//
+//        while (index < text.length())
+//        {
+//            start = text.indexOf(startPattern, index);
+//            if (start >= index)
+//            {
+//                end = text.indexOf(ENCLOSING_END_CHARACTER, start);
+//                if (end > start)
+//                {
+//                    variables.add(text.substring(start + startPattern.length(), end));
+//                }
+//
+//                index = end;
+//            }
+//            else
+//            {
+//                index = text.length();
+//            }
+//        }
+//
+//        return variables;
+//    }
 
     /**
      * Return if the given text contains variables.
@@ -77,11 +91,85 @@ public class StringExpander
      */
     public static boolean containsVariable(final @NonNull String text)
     {
-        final String startPattern = "${";
+        final String startPattern = DEFAULT_PATTERN_CHARACTER + String.valueOf(ENCLOSING_START_CHARACTER);
 
         int index = text.indexOf(startPattern);
 
         return index >= 0;
+    }
+
+    /**
+     * Return if the given text contains variables.
+     * @param text String to check.
+     * @param pattern Pattern character.
+     * @return True if the given text contains some variables, false otherwise.
+     */
+    public static boolean containsVariable(final @NonNull String text, final char pattern)
+    {
+        int index = text.indexOf(pattern + String.valueOf(ENCLOSING_START_CHARACTER));
+
+        return index >= 0;
+    }
+
+    /**
+     * Return the number of variables found in a given text.
+     * @param text String to check.
+     * @return Number of variables found.
+     */
+    public static int count(final @NonNull String text)
+    {
+        return count(text, DEFAULT_PATTERN_CHARACTER);
+    }
+
+    /**
+     * Return the number of variables found in a given text.
+     * @param text String to check.
+     * @return Number of variables found.
+     */
+    public static int count(final @NonNull String text, final char pattern)
+    {
+        int count = 0;
+        int offset = 0;
+
+        while (true)
+        {
+            offset = findNextOccurrence(text, offset, pattern + String.valueOf(ENCLOSING_START_CHARACTER));
+            if (offset < 0)
+            {
+                return count;
+            }
+
+            count ++;
+            offset = computeOffset(text, offset);
+        }
+    }
+
+    /**
+     * Find the next occurrence of a given pattern in a string.
+     * @param text Text.
+     * @param offset Offset.
+     * @param pattern Pattern.
+     * @return Index of the occurrence, -1 if not found.
+     */
+    private int findNextOccurrence(String text, int offset, String pattern)
+    {
+        if (offset +1 > text.length())
+        {
+            return -1;
+        }
+
+        return text.indexOf(pattern, offset);
+    }
+
+    /**
+     * Compute the offset of the position of the '}' character in a string.
+     * @param text Text.
+     * @param offset Offset to start from.
+     * @return Offset.
+     */
+    private int computeOffset(String text, int offset)
+    {
+        return text.indexOf(ENCLOSING_END_CHARACTER, offset);
     }
 
     /**
@@ -92,6 +180,19 @@ public class StringExpander
      * @throws StringExpanderException Thrown to indicate an error occurred while trying to expand a string.
      */
     public static String expandVariables(final Object instance, final @NonNull String text) throws StringExpanderException
+    {
+        return expandVariables(DEFAULT_PATTERN_CHARACTER, instance, text);
+    }
+
+    /**
+     * Expand/replace variables with values in a given string.
+     * @param characterPattern Character used for variable pattern (ex.: standard is $ -> ${variable} but you are free to use another one).
+     * @param instance Object instance containing the real values.
+     * @param text Text containing the variables to be replaced/expanded by real variable values.
+     * @return Expanded text.
+     * @throws StringExpanderException Thrown to indicate an error occurred while trying to expand a string.
+     */
+    public static String expandVariables(final char characterPattern, final Object instance, final @NonNull String text) throws StringExpanderException
     {
         Object value;
         Field field;
@@ -104,11 +205,11 @@ public class StringExpander
             return text;
         }
 
-        for (String name : extractVariables(text))
+        for (String name : getVariableNames(characterPattern, text))
         {
             if (name.equals("this") && instance.getClass().isEnum())
             {
-                result = StringExpander.expand(result, name, ((Enum<?>) instance).name());
+                result = StringExpander.expandByName(characterPattern, result, name, ((Enum<?>) instance).name());
             }
             else
             {
@@ -122,7 +223,7 @@ public class StringExpander
                     {
                         value = ((Enum<?>) value).name();
                     }
-                    result = StringExpander.expand(result, name, (String) value);
+                    result = StringExpander.expandByName(result, name, (String) value);
                 }
                 catch (Exception e)
                 {
@@ -135,29 +236,54 @@ public class StringExpander
     }
 
     /**
-     * Expand the given variable with a value in a given string.
-     * @param source String containing the variable to resolve.
-     * @param variable Variable to resolve in the source string.
-     * @param value Value for the variable to resolve.
+     * Expand a variable given its name and a value.
+     * @param source String containing the variable to expand.
+     * @param index Variable index.
+     * @param value Variable value.
      * @return String with expanded variable.
      */
-    public static String expand(final @NonNull String source, final @NonNull String variable, final @NonNull String value)
+    public static String expandByIndex(final @NonNull String source, final int index, final @NonNull String value)
     {
-        String pattern = ("${" + variable + "}");
+        return expandByIndex(DEFAULT_PATTERN_CHARACTER, source, index, value);
+    }
+
+    /**
+     * Expand a variable given its name and a value.
+     * @param character Character used for variable pattern (ex.: standard is $ -> ${variable} but you are free to use another one).
+     * @param source String containing the variable to expand.
+     * @param index Variable index.
+     * @param value Variable value.
+     * @return String with expanded variable.
+     */
+    public static String expandByIndex(final char character, final @NonNull String source, final int index, final @NonNull String value)
+    {
+        String pattern = character + String.valueOf(ENCLOSING_START_CHARACTER) + getVariableName(character, source, index) + ENCLOSING_END_CHARACTER;
         return source.replace(pattern, value);
     }
 
     /**
-     * Expand the given variable with a value in a given string.
-     * @param character Character used for variable pattern (ex.: standard is $ -> ${variable} but you are free to use another one).
+     * Expand a variable given its name and a value.
      * @param source String containing the variable to resolve.
-     * @param variable Variable to resolve in the source string.
-     * @param value Value for the variable to resolve.
+     * @param variable Variable name.
+     * @param value Variable value.
      * @return String with expanded variable.
      */
-    public static String expand(final @NonNull String character, final @NonNull String source, final @NonNull String variable, final @NonNull String value)
+    public static String expandByName(final @NonNull String source, final @NonNull String variable, final @NonNull String value)
     {
-        String pattern = (character.substring(0, 1) + "{" + variable + "}");
+        return expandByName(DEFAULT_PATTERN_CHARACTER, source, variable, value);
+    }
+
+    /**
+     * Expand a variable given its name and value.
+     * @param character Character used for variable pattern (ex.: standard is $ -> ${variable} but you are free to use another one).
+     * @param source String containing the variable to resolve.
+     * @param variable Variable name.
+     * @param value Variable value.
+     * @return String with expanded variable.
+     */
+    public static String expandByName(final char character, final @NonNull String source, final @NonNull String variable, final @NonNull String value)
+    {
+        String pattern = character + String.valueOf(ENCLOSING_START_CHARACTER) + variable + ENCLOSING_END_CHARACTER;
         return source.replace(pattern, value);
     }
 
@@ -193,5 +319,60 @@ public class StringExpander
         result = result.substring(0, 1).toLowerCase() + result.substring(1);
 
         return result;
+    }
+
+    /**
+     * Return the name of the variable found at the given index.
+     * @param characterPattern Character pattern.
+     * @param text Text containing the variable(s).
+     * @param index Index of the variable.
+     * @return Name of the variable if found, otherwise an {@link IllegalArgumentException} is thrown.
+     */
+    private static String getVariableName(final char characterPattern, final @NonNull String text, final int index)
+    {
+        List<String> variables = getVariableNames(characterPattern, text);
+
+        if (index > 0 && index <= variables.size())
+        {
+            return variables.get(index - 1);
+        }
+
+        throw new IllegalArgumentException(String.format("Cannot find variable name at index: '%s' from: '%s'", index, text));
+    }
+
+    /**
+     * Return a list of variables contained in a string.
+     * @param text Text containing the variable(s).
+     * @return List of variables if some have been found, otherwise an empty list.
+     */
+    public static List<String> getVariableNames(final @NonNull String text)
+    {
+        return getVariableNames(DEFAULT_PATTERN_CHARACTER, text);
+    }
+
+    /**
+     * Return a list of variables contained in a string.
+     * @param characterPattern Character pattern.
+     * @param text Text containing the variable(s).
+     * @return List of variables if some have been found, otherwise an empty list.
+     */
+    public static List<String> getVariableNames(final char characterPattern, final @NonNull String text)
+    {
+        int startOffset = 0;
+        int offset = 0;
+        List<String> variables = new ArrayList<>();
+
+        while (true)
+        {
+            offset = findNextOccurrence(text, offset, characterPattern + String.valueOf(ENCLOSING_START_CHARACTER));
+            if (offset < 0)
+            {
+                return variables;
+            }
+
+            startOffset = offset + 2;
+            offset = computeOffset(text, offset);
+            variables.add(text.substring(startOffset, offset));
+        }
     }
 }
