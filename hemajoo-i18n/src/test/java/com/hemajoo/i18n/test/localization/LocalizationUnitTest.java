@@ -37,7 +37,7 @@ class LocalizationUnitTest
     /**
      * Test resource bundle property key.
      */
-    private static final String TEST_KEY_NAME = "com.hemajoo.commerce.cherry.base.i18n.test.highway.name";
+    private static final String TEST_KEY_NAME = "com.hemajoo.i18n.test.highway.name";
 
     /**
      * Resource bundle pointing at: 'i18n/test'.
@@ -47,17 +47,17 @@ class LocalizationUnitTest
     /**
      * Resource bundle key for name of entry: 'highway'.
      */
-    private static final String TEST_RESOURCE_BUNDLE_KEY_HIGHWAY_NAME = "com.hemajoo.commerce.cherry.base.i18n.test.highway.name";
+    private static final String TEST_RESOURCE_BUNDLE_KEY_HIGHWAY_NAME = "com.hemajoo.i18n.test.highway.name";
 
     /**
      * Resource bundle key for description of entry: 'highway'.
      */
-    private static final String TEST_RESOURCE_BUNDLE_KEY_HIGHWAY_DESCRIPTION = "com.hemajoo.commerce.cherry.base.i18n.test.highway.description";
+    private static final String TEST_RESOURCE_BUNDLE_KEY_HIGHWAY_DESCRIPTION = "com.hemajoo.i18n.test.highway.description";
 
     /**
      * Non-existing resource bundle key.
      */
-    private static final String TEST_RESOURCE_BUNDLE_KEY_HIGHWAY_DOES_NOT_EXIST = "com.hemajoo.commerce.cherry.base.i18n.test.highway.does-not-exist";
+    private static final String TEST_RESOURCE_BUNDLE_KEY_HIGHWAY_DOES_NOT_EXIST = "com.hemajoo.i18n.test.highway.does-not-exist";
 
     @Test
     @DisplayName("Create a localized resource")

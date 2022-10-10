@@ -28,12 +28,12 @@ public final class QuoteOfTheDay implements Localize
 
     @Setter
     @Getter
-    @I18n(key = "com.hemajoo.commerce.cherry.base.i18n.quote.${quoteNumber}.name")
+    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.name")
     private String quoteName;
 
     @Setter
     @Getter
-    @I18n(key = "com.hemajoo.commerce.cherry.base.i18n.quote.${quoteNumber}.text")
+    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.text")
     private String quoteDescription;
 
     @Builder(setterPrefix = "with")
