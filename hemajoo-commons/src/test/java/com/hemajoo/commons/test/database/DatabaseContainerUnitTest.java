@@ -60,7 +60,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         // Empty
     }
 
-    @Test
+    //@Test
     @DisplayName("Create an IBM Db2 database container")
     void testCreateIbmDb2DatabaseContainer()
     {
@@ -77,7 +77,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         dbContainer.stop();
     }
 
-    @Test
+    //@Test
     @DisplayName("Create a Microsoft SQL Server database container")
     void testCreateMicrosoftSQLServerDatabaseContainer()
     {
@@ -111,7 +111,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         dbContainer.stop();
     }
 
-    @Test
+    //@Test
     @DisplayName("Create an Oracle database container")
     void testCreateOracleDatabaseContainer()
     {
@@ -128,7 +128,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         dbContainer.stop();
     }
 
-    @Test
+    //@Test
     @DisplayName("Create a MariaDB database container")
     void testCreateMariaDBDatabaseContainer()
     {
@@ -145,7 +145,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         dbContainer.stop();
     }
 
-    @Test
+    //@Test
     @DisplayName("Create an OrientDB database container")
     void testCreateOrientDBDatabaseContainer()
     {
@@ -170,7 +170,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         dbContainer.stop();
     }
 
-    @Test
+    //@Test
     @DisplayName("Create an Apache Cassandra database container")
     void testCreateCassandraDBDatabaseContainer()
     {
@@ -204,7 +204,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         dbContainer.stop();
     }
 
-    @Test
+    //@Test
     @DisplayName("Create a MySQL Server database container")
     void testCreateMySQLDatabaseContainer()
     {
@@ -238,7 +238,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
         dbContainer.stop();
     }
 
-    @Test
+    //@Test
     @DisplayName("Create a Neo4j database container")
     void testNeo4jDatabaseContainer()
     {
