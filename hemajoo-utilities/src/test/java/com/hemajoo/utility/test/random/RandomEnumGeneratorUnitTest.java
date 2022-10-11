@@ -12,7 +12,7 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.utility.test;
+package com.hemajoo.utility.test.random;
 
 import com.hemajoo.utility.random.GeneratorException;
 import com.hemajoo.utility.random.RandomEnumGenerator;

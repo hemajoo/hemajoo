@@ -12,7 +12,7 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.utility.test;
+package com.hemajoo.utility.test.random;
 
 import com.hemajoo.utility.random.RandomNumberGenerator;
 import lombok.extern.log4j.Log4j2;
