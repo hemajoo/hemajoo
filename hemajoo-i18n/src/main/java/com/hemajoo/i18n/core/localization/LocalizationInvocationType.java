@@ -12,43 +12,27 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
+package com.hemajoo.i18n.core.localization;
 
-package com.hemajoo.commons.test.core;
-
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class DatabaseTestConfiguration
+/**
+ * Enumerate the several <b>localization invocation</b> type values.
+ * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
+ * @version 1.0.0
+ */
+public enum LocalizationInvocationType
 {
     /**
-     * Datasource URL.
+     * Localization invocation is unknown.
      */
-    @Getter
-    @Setter
-    @Value("${spring.datasource.url}")
-    protected String datasourceUrl;
+    UNKNOWN,
 
     /**
-     * Datasource user name.
+     * Localization invocation has been done through a method.
      */
-    @Getter
-    @Value("${spring.datasource.username}")
-    protected String datasourceUsername;
+    METHOD,
 
     /**
-     * Datasource user name.
+     * Localization invocation has been done through a field.
      */
-    @Getter
-    @Value("${spring.datasource.password}")
-    protected String datasourcePassword;
-
-    /**
-     * Datasource database name.
-     */
-    @Getter
-    @Value("${spring.datasource.database-name}")
-    protected String datasourceDbName;
+    FIELD
 }
