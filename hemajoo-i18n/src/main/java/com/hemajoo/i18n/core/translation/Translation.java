@@ -16,6 +16,7 @@ package com.hemajoo.i18n.core.translation;
 
 import com.google.gson.annotations.SerializedName;
 import com.hemajoo.i18n.core.localization.I18nManager;
+import com.hemajoo.i18n.core.translation.engine.google.GoogleFreeTranslator;
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
@@ -23,9 +24,10 @@ import java.io.Serializable;
 import java.util.Locale;
 
 /**
- * Entity providing services for a string to be easily localized (see: i18n, g11n, L10n).
+ * Provide services to translate a text from a source language to a target language using the <b>Google Free Translator</b>.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
+ * @see GoogleFreeTranslator
  */
 @Log4j2
 @EqualsAndHashCode
