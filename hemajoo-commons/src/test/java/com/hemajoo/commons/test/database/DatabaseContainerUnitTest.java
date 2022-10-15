@@ -17,8 +17,8 @@ package com.hemajoo.commons.test.database;
 import com.hemajoo.commons.core.AbstractHemajooUnitTest;
 import com.hemajoo.commons.core.DatabaseTestConfiguration;
 import com.hemajoo.commons.test.core.container.db.CustomOrientDBContainer;
+import com.hemajoo.commons.test.core.container.db.DatabaseContainer;
 import com.hemajoo.commons.test.core.container.db.DatabaseContainerType;
-import com.hemajoo.commons.test.core.container.db.DbContainer;
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 import lombok.extern.log4j.Log4j2;
@@ -46,7 +46,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     /**
      * Database container.
      */
-    protected DbContainer dbContainer;
+    protected DatabaseContainer dbContainer;
 
     @BeforeAll
     public void beforeAll()
@@ -64,7 +64,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create an IBM Db2 database container")
     void testCreateIbmDb2DatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.IBM_DB2)
                 .withUsername(dbConfiguration.getDatasourceUsername())
                 .withPassword(dbConfiguration.getDatasourcePassword())
@@ -81,7 +81,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create a Microsoft SQL Server database container")
     void testCreateMicrosoftSQLServerDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.MICROSOFT_SQL_SERVER)
                 .withUsername(dbConfiguration.getDatasourceUsername())
                 .withPassword(dbConfiguration.getDatasourcePassword())
@@ -98,7 +98,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create a Postgres database container")
     void testCreatePostgresDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.POSTGRES)
                 .withUsername(dbConfiguration.getDatasourceUsername())
                 .withPassword(dbConfiguration.getDatasourcePassword())
@@ -115,7 +115,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create an Oracle database container")
     void testCreateOracleDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.ORACLE)
                 .withUsername(dbConfiguration.getDatasourceUsername())
                 .withPassword(dbConfiguration.getDatasourcePassword())
@@ -132,7 +132,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create a MariaDB database container")
     void testCreateMariaDBDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.MARIADB)
                 .withDatabaseName(dbConfiguration.getDatasourceDbName())
                 .withUsername(dbConfiguration.getDatasourceUsername())
@@ -149,7 +149,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create an OrientDB database container")
     void testCreateOrientDBDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.ORIENTDB)
                 .withDatabaseName(dbConfiguration.getDatasourceDbName())
                 .withUsername(dbConfiguration.getDatasourceUsername())
@@ -174,7 +174,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create an Apache Cassandra database container")
     void testCreateCassandraDBDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.CASSANDRA)
                 .withDatabaseName(dbConfiguration.getDatasourceDbName())
                 .withUsername(dbConfiguration.getDatasourceUsername())
@@ -191,7 +191,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create a Couchbase database container")
     void testCreateCouchbaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.COUCHBASE)
                 .withDatabaseName(dbConfiguration.getDatasourceDbName())
                 .withUsername(dbConfiguration.getDatasourceUsername())
@@ -208,7 +208,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create a MySQL Server database container")
     void testCreateMySQLDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.MYSQL)
                 .withUsername(dbConfiguration.getDatasourceUsername())
                 .withPassword(dbConfiguration.getDatasourcePassword())
@@ -225,7 +225,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create a MongoDB database container")
     void testMongoDBDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.MONGODB)
                 .withUsername(dbConfiguration.getDatasourceUsername())
                 .withPassword(dbConfiguration.getDatasourcePassword())
@@ -242,7 +242,7 @@ class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Create a Neo4j database container")
     void testNeo4jDatabaseContainer()
     {
-        dbContainer = DbContainer.builder()
+        dbContainer = DatabaseContainer.builder()
                 .withType(DatabaseContainerType.NEO4J)
                 .withUsername(dbConfiguration.getDatasourceUsername())
                 .withPassword(dbConfiguration.getDatasourcePassword())
