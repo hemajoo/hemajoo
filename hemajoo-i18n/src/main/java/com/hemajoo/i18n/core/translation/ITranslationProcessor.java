@@ -20,14 +20,16 @@ import com.hemajoo.i18n.core.translation.result.ITranslationResultSentence;
 import lombok.NonNull;
 
 /**
- * Provides the basic behavior of a generic translation processor.
+ * Provide the behavior of a <b>translation processor</b>.
  * <br>
- * Generally, a concrete translation processor is dedicated to use a specific translation API such as:
- * <em>Google Free Translate API</em>
- * <em>Google Translate API</em>
- * <em>Azure Translate API</em>
- * <em>IBM Translate API</em>
- * <em>etc.</em>
+ * Specialized translation processors are available and will make use of specific translation APIs such as:<br>
+ * <ul>
+ * <li><em>Google Free Translation API</em></li>
+ * <li><em>Google Translation API</em></li>
+ * <li><em>Azure Translation API</em></li>
+ * <li><em>IBM Translation API</em></li>
+ * <li><em>etc.</em></li>
+ * </ul>
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  * @see ITranslationResultSentence
