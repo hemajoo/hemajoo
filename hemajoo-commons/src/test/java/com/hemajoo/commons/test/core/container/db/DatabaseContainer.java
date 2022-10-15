@@ -35,7 +35,7 @@ import java.time.Duration;
  * @see DatabaseContainerType
  */
 @Log4j2
-public class DbContainer
+public class DatabaseContainer
 {
     /**
      * Database container type.
@@ -76,7 +76,7 @@ public class DbContainer
      * @param databaseName The name of the database to create when starting the container.
      */
     @Builder(setterPrefix = "with")
-    public DbContainer(final DatabaseContainerType type, final @NonNull String username, final @NonNull String password, final @NonNull String databaseName)
+    public DatabaseContainer(final DatabaseContainerType type, final @NonNull String username, final @NonNull String password, final @NonNull String databaseName)
     {
         this.type = type;
         this.username = username;
