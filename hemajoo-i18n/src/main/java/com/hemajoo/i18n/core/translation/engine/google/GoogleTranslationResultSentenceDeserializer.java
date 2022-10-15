@@ -30,8 +30,8 @@ import java.lang.reflect.Type;
 public class GoogleTranslationResultSentenceDeserializer implements JsonDeserializer<ITranslationResultSentence>
 {
     @Override
-    public ITranslationResultSentence deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+    public ITranslationResultSentence deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context)
     {
-        return context.deserialize(json, GoogleTranslationResultSentence.class);
+        return context.deserialize(jsonElement, GoogleTranslationResultSentence.class);
     }
 }
