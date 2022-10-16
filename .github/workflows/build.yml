@@ -123,12 +123,21 @@ jobs:
                 "id": "s3.hemajoo-public",
                 "username": "${{ secrets.S3_HEMAJOO_USER }}",
                 "password": "${{ secrets.S3_HEMAJOO_TOKEN }}"
-            },
-            {
+                "configuration" { 
+                  "region": "eu-west-3"
+                  "publicRepository": true
+                }
+              },
+              {
                 "id": "s3.hemajoo",
                 "username": "${{ secrets.S3_HEMAJOO_USER }}",
                 "password": "${{ secrets.S3_HEMAJOO_TOKEN }}"
-            }]
+                "configuration" { 
+                  "region": "eu-west-3"
+                  "publicRepository": false
+                }
+              }
+            ]
 
       - name: Deploy Maven Artifacts
         env:

@@ -1,7 +1,7 @@
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-40(%d{🕔 HH:mm:ss.SSS} ⚙️ [%thread]) 🖥 %-5level 🔎 %-40(%logger{40}) 💬 %msg%n</pattern>
+            <pattern>%-40(%d{🕔 HH:mm:ss.SSS} ⚙️ [%-15.15thread]) 🖥 %-5level 🔎 %-35.35logger 💬 %msg%n</pattern>
         </encoder>
     </appender>
 
