@@ -14,12 +14,17 @@
  */
 package com.hemajoo.i18n.core.translation.engine.google;
 
-import com.google.gson.annotations.SerializedName;
+import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
 import com.hemajoo.i18n.core.translation.result.ITranslationResultSentence;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +33,8 @@ import java.util.stream.Collectors;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
+@NoArgsConstructor
+@AllArgsConstructor
 public final class GoogleTranslationResult implements ITranslationResult
 {
     /**
@@ -35,15 +42,13 @@ public final class GoogleTranslationResult implements ITranslationResult
      */
     @Getter
     @Setter
-    @SerializedName("sentences")
-    private List<ITranslationResultSentence> sentences;
+    private List<ITranslationResultSentence> sentences = new ArrayList<>();
 
     /**
      * Source of the translation.
      */
     @Getter
     @Setter
-    @SerializedName("src")
     private String source;
 
     /**
@@ -51,15 +56,19 @@ public final class GoogleTranslationResult implements ITranslationResult
      */
     @Getter
     @Setter
-    @SerializedName("confidence")
     private double confidence;
 
     /**
      * Creates a new Google translation result.
      */
-    public GoogleTranslationResult()
+    public GoogleTranslationResult(final @NonNull HttpResponse response) throws TranslationException
     {
-        // Required for JSON serialization.
+        StatusLine statusLine = response.getStatusLine();
+
+        if (statusLine.getStatusCode() == HttpStatus.SC_OK)
+        {
+            sentences.add(new GoogleTranslationResultSentence(getResponseString(response), "", 0));
+        }
     }
 
     /**
@@ -79,5 +88,27 @@ public final class GoogleTranslationResult implements ITranslationResult
     public TranslationProviderType getProviderType()
     {
         return TranslationProviderType.GOOGLE_FREE_TRANSLATE_API;
+    }
+
+    /**
+     * Extracts the response string from the received HTTP response.
+     * @param response HTTP response.
+     * @return Response string.
+     * @throws TranslationException Thrown to indicate an error occurred while trying to extract the response string.
+     */
+    private String getResponseString(HttpResponse response) throws TranslationException
+    {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try
+        {
+            response.getEntity().writeTo(out);
+            String responseString = out.toString();
+            out.close();
+            return responseString.replace("[\"", "").replace("\"]", "");
+        }
+        catch (IOException e)
+        {
+            throw new TranslationException(e);
+        }
     }
 }

@@ -15,9 +15,12 @@
 package com.hemajoo.i18n.core.localization;
 
 import com.google.common.collect.Maps;
+import com.hemajoo.i18n.core.MemoryResourceBundle;
 import com.hemajoo.i18n.core.annotation.I18n;
+import com.hemajoo.i18n.core.exception.ResourceException;
+import com.hemajoo.i18n.core.localization.data.LanguageException;
+import com.hemajoo.i18n.core.localization.data.LanguageType;
 import com.hemajoo.i18n.core.translation.ITranslator;
-import com.hemajoo.i18n.core.translation.Translation;
 import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.engine.google.GoogleFreeTranslator;
 import com.hemajoo.utility.reflection.ReflectionHelper;
@@ -95,6 +98,57 @@ public final class I18nManager
     {
         this.locale = locale;
         LOGGER.info(String.format("Locale set to: '%s (%s)'", this.locale, this.locale.getDisplayLanguage()));
+    }
+
+    /**
+     * Retrieve a resource bundle given its name and a language.
+     * @param resourceBundleName Resource bundle name (relative to the 'resource' folder).
+     * @param language Language.
+     * @return Resource bundle.
+     * @throws ResourceException Thrown in case the resource bundle cannot be found.
+     */
+    public ResourceBundle getBundle(final @NonNull String resourceBundleName, final @NonNull LanguageType language) throws ResourceException
+    {
+        Map<String, ResourceBundle> bundlesByName = bundles.get(language.getLocale());
+        if (bundlesByName != null)
+        {
+            return bundlesByName.get(resourceBundleName);
+        }
+
+        throw new ResourceException(String.format("Cannot find resource bundle with name: '%s' and language: '%s'", resourceBundleName, language));
+    }
+
+    /**
+     * Retrieve a resource bundle given its name and a language. No fallback solution is accepted when invoking this service, meaning that if the resource bundle does not exist in the
+     * given language, <b>null</b> will be returned!
+     * @param resourceBundleName Resource bundle name (relative to the 'resource' folder).
+     * @param language Language.
+     * @return Resource bundle.
+     * @throws ResourceException Thrown in case the resource bundle cannot be found.
+     */
+    public MemoryResourceBundle getBundleOrCreate(final @NonNull String resourceBundleName, final @NonNull LanguageType language, final @NonNull LanguageType referenceLanguage) throws ResourceException, LanguageException
+    {
+        Map<String, ResourceBundle> bundlesByName = bundles.get(language.getLocale());
+        if (bundlesByName != null)
+        {
+            ResourceBundle bundle = bundlesByName.get(resourceBundleName);
+            if (bundle != null)
+            {
+                if (bundle.getLocale().equals(language.getLocale()))
+                {
+                    return new MemoryResourceBundle(bundle, language);
+                }
+
+                return new MemoryResourceBundle(bundle, language);
+            }
+        }
+
+        throw new ResourceException(String.format("Cannot find resource bundle with name: '%s' and language: '%s'", resourceBundleName, language));
+    }
+
+    private MemoryResourceBundle copyBundle(final @NonNull ResourceBundle bundle, final @NonNull LanguageType language) throws LanguageException
+    {
+        return new MemoryResourceBundle(bundle, language);
     }
 
     /**
@@ -286,11 +340,11 @@ public final class I18nManager
 
             if (bundle.getLocale().equals(locale))
             {
-                LOGGER.debug(String.format("Found resource bundle: '%s' for language: '%s (%s)' with: '%s' entries", path, locale, locale.getDisplayLanguage(), bundle.keySet().size()));
+                LOGGER.debug(String.format("☑️ Found resource bundle '%s' for language '%s (%s)' with '%s' entries", path, locale, locale.getDisplayLanguage(), bundle.keySet().size()));
             }
             else
             {
-                LOGGER.debug(String.format("Cannot find resource bundle: '%s' for language: '%s (%s)'. Replacing with default: '%s (%s)' with: '%s' entries", path, locale, locale.getDisplayLanguage(), bundle.getLocale(), bundle.getLocale().getDisplayLanguage(), bundle.keySet().size()));
+                LOGGER.debug(String.format("❕Cannot find resource bundle: '%s' for language: '%s (%s)'. Replacing with default: '%s (%s)' with: '%s' entries", path, locale, locale.getDisplayLanguage(), bundle.getLocale(), bundle.getLocale().getDisplayLanguage(), bundle.keySet().size()));
             }
 
             bundles.computeIfAbsent(Locale.forLanguageTag(locale.getLanguage()), function -> Maps.newHashMap()).put(path, bundle);
@@ -756,23 +810,17 @@ public final class I18nManager
         bundles.clear();
     }
 
-//    @Synchronized
-//    public GoogleTranslationResult translate(final @NonNull Translation text, final @NonNull Locale source, final @NonNull Locale target) throws TranslationException
-//    {
-//        return (GoogleTranslationResult) translationProcessor.translate(text,source,target);
-//    }
-
     /**
      * Translate a text.
+     * @param source Source language.
+     * @param target Target language.
      * @param text Text to translate.
-     * @param source Source locale.
-     * @param target Target locale.
      * @return Translated text.
      * @throws TranslationException Thrown to indicate an error occurred while trying to translate a text.
      */
     @Synchronized
-    public String translate(final @NonNull Translation text, final @NonNull Locale source, final @NonNull Locale target) throws TranslationException
+    public String translate(final @NonNull LanguageType source, final @NonNull LanguageType target, final @NonNull String text) throws TranslationException
     {
-        return translationProcessor.translate(text,source,target);
+        return GoogleFreeTranslator.translate(source, target, text);
     }
 }

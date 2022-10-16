@@ -39,17 +39,6 @@
             <scope>test</scope>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.apache.logging.log4j</groupId>-->
-<!--            <artifactId>log4j-api</artifactId>-->
-<!--        </dependency>-->
-
-        <dependency>
-            <groupId>com.google.code.gson</groupId> <!-- Use jackson instead! -->
-            <artifactId>gson</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>

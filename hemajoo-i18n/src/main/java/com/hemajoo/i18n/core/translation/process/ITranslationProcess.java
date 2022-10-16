@@ -91,4 +91,10 @@ public interface ITranslationProcess
      * @throws TranslationException Thrown in case an error occurred while generating the document content.
      */
     String getDocument() throws TranslationException;
+
+    void setElapsed(final long elapsed);
+
+    void updateEntry(final @NonNull ITranslationRequestEntry entry, final @NonNull ITranslationResult result);
+
+    long getElapsed();
 }

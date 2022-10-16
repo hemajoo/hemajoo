@@ -14,18 +14,27 @@
  */
 package com.hemajoo.i18n.core.translation.request;
 
+import com.hemajoo.i18n.core.MemoryResourceBundle;
+import com.hemajoo.i18n.core.localization.data.LanguageType;
+import com.hemajoo.i18n.core.translation.TranslationDocumentType;
 import com.hemajoo.i18n.core.translation.TranslationException;
+import com.hemajoo.i18n.core.translation.result.ITranslationResult;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * A translation request.
+ * A translation request is used to submit multiple text entries to be translated at once.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
+@NoArgsConstructor
 public class TranslationRequest implements ITranslationRequest
 {
     @Getter
@@ -54,14 +63,35 @@ public class TranslationRequest implements ITranslationRequest
      */
     @Getter
     @Setter
-    private Locale sourceLocale;
+    private LanguageType sourceLanguage;
 
     /**
      * Target language.
      */
     @Getter
     @Setter
-    private Locale targetLocale;
+    private LanguageType targetLanguage;
+
+    @Getter
+    private TranslationDocumentType documentType;
+
+    public TranslationRequest(final @NonNull MemoryResourceBundle sourceResourceBundle, final MemoryResourceBundle targetResourceBundle)
+    {
+        documentType = TranslationDocumentType.RESOURCE_BUNDLE;
+        setSourceLanguage(sourceResourceBundle.getLanguage());
+        setTargetLanguage(targetResourceBundle.getLanguage());
+        setSourceResourceBundle(sourceResourceBundle);
+        setTargetResourceBundle(targetResourceBundle);
+    }
+
+    public TranslationRequest(final @NonNull LanguageType sourceLanguage, final @NonNull LanguageType targetLanguage, final @NonNull String textDocument)
+    {
+        documentType = TranslationDocumentType.TEXT;
+        setSourceLanguage(sourceLanguage);
+        setTargetLanguage(targetLanguage);
+        setSourceProperties(textDocument);
+        setTargetProperties(null); // Should map with source
+    }
 
     @Override
     public final String getQuery()
@@ -104,6 +134,7 @@ public class TranslationRequest implements ITranslationRequest
     public final void setSourceProperties(final @NonNull String content)
     {
         String[] entryParts;
+        int index = 0;
 
         String[] parts = content.split("\n");
         if (parts.length > 1)
@@ -111,7 +142,18 @@ public class TranslationRequest implements ITranslationRequest
             for (String s : parts)
             {
                 entryParts = s.split("=");
-                if (entryParts.length > 1)
+                if (entryParts.length == 1) // Not a resource bundle, just a text file
+                {
+                    if (documentType == TranslationDocumentType.PROPERTIES || documentType == TranslationDocumentType.RESOURCE_BUNDLE)
+                    {
+                        sources.put(entryParts[0], "");
+                    }
+                    else
+                    {
+                        sources.put(Integer.toString(index++), entryParts[0]);
+                    }
+                }
+                else if (entryParts.length > 1) // A resource bundle or a properties file
                 {
                     sources.put(entryParts[0], entryParts[1]);
                 }
@@ -128,22 +170,65 @@ public class TranslationRequest implements ITranslationRequest
     }
 
     @Override
-    public final void setTargetProperties(final @NonNull String content)
+    public final void setTargetProperties(final String content)
     {
         String[] entryParts;
 
-        String[] parts = content.split("\n");
-        if (parts.length > 1)
+        if (content == null) // A text file to convert
         {
-            for (String s : parts)
+            for (String key : sources.keySet())
             {
-                entryParts = s.split("=");
-                if (entryParts.length > 1)
+                targets.put(key, null);
+            }
+        }
+        else
+        {
+            String[] parts = content.split("\n");
+            if (parts.length > 1)
+            {
+                for (String s : parts)
                 {
-                    targets.put(entryParts[0], entryParts[1]);
+                    entryParts = s.split("=");
+                    if (entryParts.length > 0)
+                    {
+                        targets.put(entryParts[0], entryParts.length == 2 ? entryParts[1] : "");
+                    }
                 }
             }
         }
+    }
+
+    @Override
+    public Object getTranslationResult() throws TranslationException
+    {
+        switch (documentType)
+        {
+            case RESOURCE_BUNDLE:
+                break;
+
+            case PROPERTIES:
+                break;
+
+            case TEXT:
+                StringBuilder builder = new StringBuilder();
+                List<Integer> keys = targets.keySet().stream().map(Integer::valueOf).sorted().toList();
+                for (Integer index : keys)
+                {
+                    builder.append(targets.get(index.toString())).append("\n");
+                }
+                return builder.toString();
+
+            case FILE_TEXT:
+                break;
+        }
+
+        throw new TranslationException("Unknown source document type!");
+    }
+
+    @Override
+    public final void updateEntry(final @NonNull ITranslationRequestEntry entry, final @NonNull ITranslationResult result)
+    {
+        targets.put(entry.getKey(), result.getSentences().get(0).getTranslation());
     }
 
     @Override
@@ -184,5 +269,33 @@ public class TranslationRequest implements ITranslationRequest
     public final void setCompactMode(final boolean mode)
     {
         this.compactMode = mode;
+    }
+
+    public void setSourceResourceBundle(final @NonNull MemoryResourceBundle resourceBundle)
+    {
+        setSourceProperties(convertResourceBundleToString(resourceBundle));
+    }
+
+    public void setTargetResourceBundle(final @NonNull MemoryResourceBundle resourceBundle)
+    {
+        setTargetProperties(convertResourceBundleToString(resourceBundle));
+    }
+
+    /**
+     * Convert a resource bundle to a string.
+     * @param resourceBundle Resource bundle.
+     * @return String.
+     */
+    private String convertResourceBundleToString(final @NonNull MemoryResourceBundle resourceBundle)
+    {
+        StringBuilder builder = new StringBuilder();
+
+        List<String> keys = resourceBundle.getKeys();
+        for (String key : keys)
+        {
+            builder.append(key).append("=").append(resourceBundle.getValue(key)).append("\n");
+        }
+
+        return builder.toString();
     }
 }

@@ -52,12 +52,10 @@
         <project.directory.db>${basedir}/db</project.directory.db>
         <test.pattern.unit>**/*UnitTest.java</test.pattern.unit>
         <test.pattern.integration>**/*IntegrationTest.java</test.pattern.integration>
-        <maven.deploy.skip>true</maven.deploy.skip>
 
         <!-- Spring  properties -->
-        <version.spring.boot>2.7.3</version.spring.boot>
-        <log4j2.version>2.18.0</log4j2.version> <!-- Forces Spring to use this version of log4j2 -->
-        <junit-jupiter.version>5.8.2</junit-jupiter.version>
+        <version.spring.boot>2.7.4</version.spring.boot>                                                            <!-- Last updated: 2022-10-16 -->
+        <log4j2.version>2.19.0</log4j2.version> <!-- Forces Spring to use this version of log4j2 -->                <!-- Last updated: 2022-10-16 -->
 
         <!-- Maven plugins version properties. -->
         <version.maven.plugin.compiler>3.10.1</version.maven.plugin.compiler>
@@ -76,12 +74,12 @@
         <version.plugin.maven.jacoco>0.8.8</version.plugin.maven.jacoco>
 
         <!-- Dependencies version properties -->
-        <version.springdoc.openapi>1.6.6</version.springdoc.openapi>                                               <!-- Last updated: 2022-09-21 -->
+        <version.springdoc.openapi>1.6.6</version.springdoc.openapi>                                                <!-- Last updated: 2022-09-21 -->
         <version.google.guava>31.1-jre</version.google.guava>
         <version.junit.jupiter>5.9.1</version.junit.jupiter>                                                        <!-- Last updated: 2022-09-21 -->
-        <version.junit.platform.launcher>1.6.2</version.junit.platform.launcher>
-        <version.javafaker>1.0.2</version.javafaker>
-        <version.apache.log4j>2.18.0</version.apache.log4j>
+        <version.junit.platform.launcher>1.9.1</version.junit.platform.launcher>                                    <!-- Last updated: 2022-10-16 -->
+        <version.datafaker>1.6.0</version.datafaker>                                                                <!-- Last updated: 2022-10-16 -->
+        <version.apache.log4j>2.19.0</version.apache.log4j>                                                         <!-- Last updated: 2022-10-16 -->
         <version.apache.commons.lang.3>3.9</version.apache.commons.lang.3>
         <version.apache.commons.io>2.11.0</version.apache.commons.io>
         <version.apache.commons.validator>1.7</version.apache.commons.validator>
@@ -89,20 +87,19 @@
         <version.assertj>3.23.1</version.assertj>
         <version.mapstruct>1.5.2.Final</version.mapstruct>
         <version.lombok.mapstruct>0.2.0</version.lombok.mapstruct>
-        <version.flyway>8.5.13</version.flyway>
-        <version.apache.tika>1.0.18</version.apache.tika>
-        <version.hibernate.validator>7.0.1.Final</version.hibernate.validator>
-        <version.javers>3.1.0</version.javers>
+<!--        <version.flyway>8.5.13</version.flyway>-->
+<!--        <version.apache.tika>1.0.18</version.apache.tika>-->
+<!--        <version.javers>3.1.0</version.javers>-->
         <version.testcontainers>1.17.5</version.testcontainers>                                                     <!-- Last updated: 2022-10-08 -->
         <version.db.h2>2.1.212</version.db.h2>
-        <version.db.postgresql>42.4.1</version.db.postgresql>
-        <version.spring.content>2.5.0</version.spring.content>
-        <version.amazon.awssdk>2.17.278</version.amazon.awssdk>                                                     <!-- Last updated: 2022-09-21 -->
-        <version.hibernate.validator>7.0.4.Final</version.hibernate.validator>
-        <version.jakarta.el>4.0.1</version.jakarta.el>
-        <version.imageio>3.8.3</version.imageio>
-        <version.imagej>1.53t</version.imagej>
-        <version.hibernate.validator>1.0.0</version.hibernate.validator>
+        <version.db.postgresql>42.5.0</version.db.postgresql>
+<!--        <version.spring.content>2.5.0</version.spring.content>-->
+<!--        <version.amazon.awssdk>2.17.278</version.amazon.awssdk>                                                     &lt;!&ndash; Last updated: 2022-09-21 &ndash;&gt;-->
+<!--        <version.hibernate.validator>7.0.4.Final</version.hibernate.validator>-->
+<!--        <version.jakarta.el>4.0.1</version.jakarta.el>-->
+<!--        <version.imageio>3.8.3</version.imageio>-->
+<!--        <version.imagej>1.53t</version.imagej>-->
+<!--        <version.hibernate.validator>1.0.0</version.hibernate.validator>-->
 
         <!-- Flyway properties -->
         <flyway.locations>classpath:/db/migration/h2</flyway.locations>
@@ -126,10 +123,28 @@
 
     <distributionManagement>
 
+        <!-- Used to deploy in the Hemajoo PRIVATE maven registry -->
+<!--        <snapshotRepository>-->
+<!--            <id>s3.hemajoo</id> &lt;!&ndash; Must match one entry in the server section with the same id &ndash;&gt;-->
+<!--            <name>AWS Hemajoo Maven Registry (Snapshots)</name>-->
+<!--            <url>s3://maven.hemajoo/snapshots</url>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>s3.hemajoo</id> &lt;!&ndash; Must match one entry in the server section with the same id &ndash;&gt;-->
+<!--            <name>AWS Hemajoo Maven Registry (Releases)</name>-->
+<!--            <url>s3://maven.hemajoo/releases</url>-->
+<!--        </repository>-->
+
+            <!-- Used to deploy in the Hemajoo PUBLIC maven registry -->
+        <snapshotRepository>
+            <id>s3.hemajoo-public</id> <!-- Must match one entry in the server section with the same id -->
+            <name>AWS Hemajoo - Public Maven Registry (Snapshots)</name>
+            <url>s3://maven.hemajoo-public/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>github.hemajoo.maven.registry</id>
-            <name>GitHub Hemajoo - Maven Registry</name>
-            <url>https://maven.pkg.github.com/hemajoo/hemajoo</url>
+            <id>s3.hemajoo-public</id> <!-- Must match one entry in the server section with the same id -->
+            <name>AWS Hemajoo - Public Maven Registry (Releases)</name>
+            <url>s3://maven.hemajoo-public/releases</url>
         </repository>
 
     </distributionManagement>
@@ -146,24 +161,24 @@
             </snapshots>
         </repository>
 
+        <!-- Hemajoo private Maven registry -->
         <repository>
-            <id>github.ressec.maven.registry</id>
-            <name>GitHub ResseC - Maven Registry</name>
-            <url>https://maven.pkg.github.com/ressec/*</url>
+            <id>s3.hemajoo.snapshots</id> <!-- Must match one entry in the server section with the same id -->
+            <name>AWS Hemajoo - Private Maven Registry (Snapshots)</name>
+            <url>s3://maven.hemajoo/snapshots</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
         </repository>
-
         <repository>
-            <id>github.hemajoo.maven.registry</id>
-            <name>GitHub Hemajoo - Maven Registry</name>
-            <url>https://maven.pkg.github.com/hemajoo/*</url>
+            <id>s3.hemajoo.releases</id> <!-- Must match one entry in the server section with the same id -->
+            <name>AWS Hemajoo - Private Maven Registry (Releases)</name>
+            <url>s3://maven.hemajoo/releases</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
             <releases>
                 <enabled>true</enabled>
@@ -176,7 +191,7 @@
 
         <dependencies>
 
-            <!-- Spring Boot BOM -->
+            <!-- Spring Boot BOM (Bill Of Materials) -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -185,7 +200,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- TestContainers BOM -->
+            <!-- TestContainers BOM (Bill Of Materials) -->
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers-bom</artifactId>
@@ -194,7 +209,28 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- Spring dependencies -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${version.spring.boot}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.junit.vintage</groupId>
+                        <artifactId>junit-vintage-engine</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
@@ -215,22 +251,10 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${version.spring.boot}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${version.spring.boot}</version>
-                <scope>test</scope>
                 <exclusions>
                     <exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.junit.vintage</groupId>
-                        <artifactId>junit-vintage-engine</artifactId>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -337,7 +361,7 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${version.db.postgresql}</version>
-                <scope>runtime</scope>
+                <scope>test</scope>
             </dependency>
 
             <!-- H2 (in-memory) JDBC drivers -->
@@ -409,9 +433,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.github.javafaker</groupId>
-                <artifactId>javafaker</artifactId>
-                <version>${version.javafaker}</version>
+                <groupId>net.datafaker</groupId>
+                <artifactId>datafaker</artifactId>
+                <version>${version.datafaker}</version>
             </dependency>
 
             <dependency>
@@ -568,11 +592,22 @@
             <!--            <version>${version.javers}</version>-->
             <!--        </dependency>-->
 
+
         </dependencies>
 
     </dependencyManagement>
 
     <build>
+
+        <extensions>
+
+            <extension>
+                <groupId>com.gkatzioura.maven.cloud</groupId>
+                <artifactId>s3-storage-wagon</artifactId>
+                <version>2.3</version>
+            </extension>
+
+        </extensions>
 
         <plugins>
 

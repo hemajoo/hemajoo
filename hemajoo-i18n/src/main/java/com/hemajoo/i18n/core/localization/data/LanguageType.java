@@ -262,16 +262,29 @@ public enum LanguageType
      * Create a <b>language type</b>.
      * @param isoCode Language ISO Alpha-2 code (2 letters).
      * @return {@link LanguageType} representing the language.
-     * @throws LanguageException Thrown to indicate that an error occurred while trying to create the language type.
+     * @throws IllegalArgumentException Thrown to indicate that an error occurred while trying to create the language type.
      */
-    public static LanguageType from(final @NonNull String isoCode) throws LanguageException
+    public static LanguageType from(final @NonNull String isoCode) throws IllegalArgumentException
     {
         Optional<LanguageType> result = Arrays.stream(LanguageType.values())
                 .filter(v -> v.getLocale().toLanguageTag().equals(isoCode)).findAny();
 
         if (result.isEmpty())
         {
-            throw new LanguageException(String.format("Cannot find a language with ISO code (2 letters): '%s'", isoCode));
+            throw new IllegalArgumentException(String.format("Cannot find a language with ISO code (2 letters): '%s'", isoCode));
+        }
+
+        return result.get();
+    }
+
+    public static LanguageType from(final @NonNull Locale locale) throws IllegalArgumentException
+    {
+        Optional<LanguageType> result = Arrays.stream(LanguageType.values())
+                .filter(v -> v.getLocale().toLanguageTag().equals(locale.toLanguageTag())).findAny();
+
+        if (result.isEmpty())
+        {
+            throw new IllegalArgumentException(String.format("Cannot find a language matching the given locale: '%s'", locale));
         }
 
         return result.get();

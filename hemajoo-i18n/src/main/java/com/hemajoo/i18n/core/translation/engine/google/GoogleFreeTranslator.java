@@ -14,13 +14,20 @@
  */
 package com.hemajoo.i18n.core.translation.engine.google;
 
+import com.hemajoo.i18n.core.localization.data.LanguageType;
 import com.hemajoo.i18n.core.translation.ITranslator;
-import com.hemajoo.i18n.core.translation.Translation;
 import com.hemajoo.i18n.core.translation.TranslationException;
-import lombok.NonNull;
+import com.hemajoo.i18n.core.translation.process.ITranslationProcess;
+import com.hemajoo.i18n.core.translation.process.TranslationProcess;
+import com.hemajoo.i18n.core.translation.request.ITranslationRequest;
+import com.hemajoo.i18n.core.translation.request.ITranslationRequestEntry;
+import com.hemajoo.i18n.core.translation.result.ITranslationResult;
+import lombok.*;
+import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -29,64 +36,71 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * A <b>Google</b> free translator.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
+@Log4j2
+@NoArgsConstructor
 public final class GoogleFreeTranslator implements ITranslator
 {
+    /**
+     * Google free translation API.
+     */
     private static final String GOOGLE_TRANSLATE_API = "https://translate.googleapis.com/translate_a/t?client=dict-chrome-ex&sl=";
 
-//    private ITranslationResult translationResult;
-//
-//    private List<ITranslationResultSentence> sentences = new ArrayList<>();
+    /**
+     * Translation result.
+     */
+    @Getter
+    @Setter
+    private ITranslationResult translationResult;
+
+    /**
+     * Translation process.
+     */
+    @Getter
+    @Setter
+    private ITranslationProcess translationProcess;
 
     /**
      * Http client.
      */
     private CloseableHttpClient httpClient = null;
 
-    /**
-     * Gson builder.
-     */
-//    private final Gson gsonBuilder;
 
-    /**
-     * Creates a new Google translation processor.
-     */
-    public GoogleFreeTranslator()
+    @Builder(setterPrefix = "with")
+    public GoogleFreeTranslator(final @NonNull ITranslationRequest request)
     {
-//        gsonBuilder = new GsonFireBuilder()
-//                .createGsonBuilder()
-//                .setDateFormat("yyyy-MM-dd")
-//                .setPrettyPrinting()
-//                .registerTypeAdapter(ITranslationResult.class, new GoogleTranslationResultDeserializer())
-//                .registerTypeAdapter(ITranslationResultSentence.class, new GoogleTranslationResultSentenceDeserializer())
-//                .enableComplexMapKeySerialization()
-//                .create();
+        translationProcess = new TranslationProcess();
+        translationProcess.setRequest(request);
 
         httpClient = HttpClientBuilder.create().build();
     }
 
-    @Override
-    public String translate(final @NonNull Translation text, final @NonNull Locale source, final @NonNull Locale target) throws TranslationException
+    /**
+     * Translate some text (on the fly).
+     * @param sourceLanguage Source language.
+     * @param targetLanguage Target language.
+     * @param text Text to translate.
+     * @return Translated text.
+     * @throws TranslationException Thrown to indicate an error occurred while trying to translate some text.
+     */
+    public static String translate(final @NonNull LanguageType sourceLanguage, final @NonNull LanguageType targetLanguage, final @NonNull String text) throws TranslationException
     {
-        String url;
-
-        try
+        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build())
         {
-            url = buildUrl(text.getText(),source.getLanguage(), target.getLanguage());
+            String url = buildUrl(text, sourceLanguage.getLocale().getLanguage(), targetLanguage.getLocale().getLanguage());
             HttpGet http = new HttpGet(url);
             http.setHeader( "Accept", "application/json" );
             HttpResponse response = httpClient.execute(new HttpGet(url));
             StatusLine statusLine = response.getStatusLine();
-
             if (statusLine.getStatusCode() == HttpStatus.SC_OK)
             {
-//                return deserializeResponse(getResponseString(response));
                 return getResponseString(response);
             }
             else
@@ -98,28 +112,97 @@ public final class GoogleFreeTranslator implements ITranslator
         {
             throw new TranslationException(e);
         }
-   }
+    }
+
+    @Override
+    public void translate() throws TranslationException
+    {
+        Instant start = Instant.now();
+        Instant finish;
+
+        if (translationProcess != null)
+        {
+            for (ITranslationRequestEntry requestEntry : translationProcess.getRequest().getEntries())
+            {
+                translateEach(httpClient, requestEntry);
+            }
+
+            finish = Instant.now();
+            translationProcess.setElapsed(Duration.between(start, finish).toMillis());
+        }
+    }
 
     /**
-     * Builds the URL to be used for the translation.
+     * Translate a request entry.
+     * @param entry Translation request entry.
+     * @throws TranslationException Thrown to indicate an error occurred while trying to translate a request entry.
+     */
+    private void translateEach(final @NonNull HttpClient httpClient, final @NonNull ITranslationRequestEntry entry) throws TranslationException
+    {
+        String url;
+        HttpGet http;
+        HttpResponse response;
+        StatusLine statusLine;
+
+        try
+        {
+            if (entry.requireTranslation())
+            {
+                url = buildUrl(
+                        entry.getSource(),
+                        translationProcess.getRequest().getSourceLanguage().getLocale().getLanguage(),
+                        translationProcess.getRequest().getTargetLanguage().getLocale().getLanguage());
+
+                Instant start = Instant.now();
+
+                http = new HttpGet(url);
+                http.setHeader( "Accept", "application/json" );
+                response = httpClient.execute(new HttpGet(url));
+                statusLine = response.getStatusLine();
+
+                if (statusLine.getStatusCode() == HttpStatus.SC_OK)
+                {
+                    translationProcess.updateEntry(entry, new GoogleTranslationResult(response));
+                    LOGGER.trace(String.format("🌏Translation from %s (%s) to %s (%s) took %s ms",
+                            translationProcess.getRequest().getSourceLanguage(),
+                            translationProcess.getRequest().getSourceLanguage().getLocale().getLanguage(),
+                            translationProcess.getRequest().getTargetLanguage(),
+                            translationProcess.getRequest().getTargetLanguage().getLocale().getLanguage(),
+                            Duration.between(start, Instant.now()).toMillis()));
+                }
+                else
+                {
+                    throw new TranslationException(response.getStatusLine().getReasonPhrase());
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            throw new TranslationException(e);
+        }
+
+    }
+
+    /**
+     * Build the URL to be used for the translation.
      * @param text Text to be translated.
      * @param sourceLanguage Source language.
      * @param targetLanguage Target language.
      * @return Translation URL.
      */
-    private String buildUrl(String text, String sourceLanguage, String targetLanguage)
+    private static String buildUrl(String text, String sourceLanguage, String targetLanguage)
     {
         String textEncoded = URLEncoder.encode(text, StandardCharsets.UTF_8);
         return GOOGLE_TRANSLATE_API + sourceLanguage + "&tl=" + targetLanguage + "&dt=t&q=" + textEncoded;
     }
 
     /**
-     * Extracts the response string from the received HTTP response.
+     * Extract the response string from the received HTTP response.
      * @param response HTTP response.
      * @return Response string.
      * @throws IOException Thrown to indicate an error occurred while trying to extracts the response string.
      */
-    private String getResponseString(HttpResponse response) throws IOException
+    private static String getResponseString(HttpResponse response) throws IOException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         response.getEntity().writeTo(out);
@@ -127,27 +210,5 @@ public final class GoogleFreeTranslator implements ITranslator
         out.close();
 
         return responseString.replace("[\"", "").replace("\"]", "");
-    }
-
-//    /**
-//     * Deserializes the response.
-//     * @param response Response.
-//     * @return De-serialized {@link ITranslationResult} representing the translation result.
-//     */
-//    private ITranslationResult deserializeResponse(String response)
-//    {
-//        return GsonHelper.deserialize(gsonBuilder, response, new TypeToken<ITranslationResult>(){}.getType());
-//    }
-
-    /**
-     * Close the http connection.
-     * @throws IOException Thrown to indicate an error occurred when trying to close the http connection.
-     */
-    public void destroy() throws IOException
-    {
-        if (httpClient != null)
-        {
-            httpClient.close();
-        }
     }
 }

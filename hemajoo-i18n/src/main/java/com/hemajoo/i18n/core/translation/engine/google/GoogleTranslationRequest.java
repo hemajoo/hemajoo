@@ -14,14 +14,30 @@
  */
 package com.hemajoo.i18n.core.translation.engine.google;
 
+import com.hemajoo.i18n.core.MemoryResourceBundle;
+import com.hemajoo.i18n.core.localization.data.LanguageType;
 import com.hemajoo.i18n.core.translation.request.TranslationRequest;
+import lombok.Builder;
+import lombok.NonNull;
+
+import java.util.ResourceBundle;
 
 /**
  * A <b>Google</b> translation request.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-public class GoogleTranslationRequest extends TranslationRequest
+public class GoogleTranslationRequest
 {
-    // Empty.
+    private TranslationRequest translationRequest;
+
+    @Builder(setterPrefix = "with")
+    public GoogleTranslationRequest(final @NonNull ResourceBundle sourceResourceBundle, final @NonNull ResourceBundle targetResourceBundle)
+    {
+        translationRequest = new TranslationRequest();
+        translationRequest.setSourceLanguage(LanguageType.from(sourceResourceBundle.getLocale()));
+        translationRequest.setTargetLanguage(LanguageType.from(targetResourceBundle.getLocale()));
+        translationRequest.setSourceResourceBundle(new MemoryResourceBundle(sourceResourceBundle, LanguageType.from(sourceResourceBundle.getLocale())));
+        translationRequest.setTargetResourceBundle(new MemoryResourceBundle(targetResourceBundle, LanguageType.from(targetResourceBundle.getLocale())));
+    }
 }

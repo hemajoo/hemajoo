@@ -14,16 +14,13 @@
  */
 package com.hemajoo.i18n.core.translation;
 
-/**
- * Interface defining the behavior of a translator.
- * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
- * @version 1.0.0
- */
-public interface ITranslator
+public enum TranslationDocumentType
 {
-    /**
-     * Translate a <b>translation process</b>, if one has been set. If none has been set, invoking this service has no effect!
-     * @throws TranslationException Thrown to indicate an error occurred while trying to translate some text.
-     */
-    void translate() throws TranslationException;
+    TEXT,
+
+    FILE_TEXT,
+
+    RESOURCE_BUNDLE,
+
+    PROPERTIES,
 }
