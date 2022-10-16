@@ -1,7 +1,8 @@
 <configuration>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-30(%d{🕔 HH:mm:ss.SSS} ⚙️[%thread]) 🖥%-5level 🔎%43(%logger{36}) 💬 %msg%n</pattern>
+            <pattern>%-30(%d{🕔 HH:mm:ss.SSS} ⚙️[%thread]) 🖥%-5level 🔎%40(%logger{36}) 💬 %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -12,6 +13,8 @@
     <logger name="com.hemajoo.i18n" level="TRACE"/>
     <logger name="com.hemajoo.utility" level="TRACE"/>
 
+    <logger name="org.testcontainers" level="INFO"/>
+    <logger name="com.github.dockerjava" level="INFO"/>
     <logger name="org.apache.http" level="INFO"/>
 
 </configuration>

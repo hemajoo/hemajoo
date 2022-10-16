@@ -20,7 +20,7 @@ import com.orientechnologies.orient.core.db.ODatabaseType;
 import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
 import lombok.NonNull;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.OrientDBContainer;
 import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
@@ -31,7 +31,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
-@Log4j2
+@Slf4j
 public class CustomOrientDBContainer extends GenericContainer<CustomOrientDBContainer>
 {
     private static final DockerImageName DEFAULT_IMAGE_NAME = DockerImageName.parse("orientdb");

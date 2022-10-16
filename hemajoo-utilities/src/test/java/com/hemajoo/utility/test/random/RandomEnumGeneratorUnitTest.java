@@ -17,7 +17,7 @@ package com.hemajoo.utility.test.random;
 import com.hemajoo.utility.random.GeneratorException;
 import com.hemajoo.utility.random.RandomEnumGenerator;
 import com.hemajoo.utility.test.internal.AnimalType;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Log4j2
+@Slf4j
 class RandomEnumGeneratorUnitTest
 {
     private final RandomEnumGenerator animalGenerator = RandomEnumGenerator.of(AnimalType.class);

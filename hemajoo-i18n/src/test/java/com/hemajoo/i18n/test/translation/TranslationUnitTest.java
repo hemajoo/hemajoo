@@ -24,7 +24,7 @@ import com.hemajoo.i18n.core.localization.data.LanguageType;
 import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.engine.google.GoogleFreeTranslator;
 import com.hemajoo.i18n.core.translation.request.TranslationRequest;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-@Log4j2
+@Slf4j
 class TranslationUnitTest extends AbstractHemajooUnitTest
 {
     /**

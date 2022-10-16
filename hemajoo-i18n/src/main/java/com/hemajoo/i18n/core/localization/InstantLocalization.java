@@ -15,7 +15,7 @@
 package com.hemajoo.i18n.core.localization;
 
 import lombok.*;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -25,7 +25,7 @@ import java.util.Locale;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-@Log4j2
+@Slf4j
 @NoArgsConstructor
 @EqualsAndHashCode
 public final class InstantLocalization implements Serializable

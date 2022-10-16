@@ -16,7 +16,7 @@ package com.hemajoo.utility.test.string;
 
 import com.hemajoo.utility.string.StringExpander;
 import lombok.NonNull;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -24,7 +24,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Log4j2
+@Slf4j
 class StringExpanderUnitTest
 {
     @ValueSource(strings = {

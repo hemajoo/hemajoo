@@ -29,7 +29,7 @@ import com.hemajoo.utility.string.StringExpanderException;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Synchronized;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.annotation.Annotation;
@@ -42,7 +42,7 @@ import java.util.*;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-@Log4j2
+@Slf4j
 public final class I18nManager
 {
     /**
@@ -768,7 +768,7 @@ public final class I18nManager
             {
                 if (!bundle.getLocale().toLanguageTag().equals(currentLocale.toLanguageTag()))
                 {
-                    LOGGER.warn(String.format("Warning: cannot find resource bundle: '%s', language-tag: '%s', language: '%s'!",
+                    LOGGER.warn(String.format("⚠️ Warning: cannot find resource bundle: '%s', language-tag: '%s', language: '%s'!",
                             bundle.getBaseBundleName(), currentLocale, currentLocale.getDisplayLanguage()));
                 }
 
@@ -789,7 +789,7 @@ public final class I18nManager
         }
         else
         {
-            LOGGER.warn(String.format("No resource bundle found for bundle: '%s', language: '%s (%s)'. Use of default language: '%s (%s)' instead!",
+            LOGGER.warn(String.format("⚠️ No resource bundle found for bundle: '%s', language: '%s (%s)'. Use of default language: '%s (%s)' instead!",
                     filePath,
                     currentLocale,
                     currentLocale.getDisplayLanguage(),

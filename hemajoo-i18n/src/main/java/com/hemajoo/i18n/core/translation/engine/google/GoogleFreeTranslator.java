@@ -23,7 +23,7 @@ import com.hemajoo.i18n.core.translation.request.ITranslationRequest;
 import com.hemajoo.i18n.core.translation.request.ITranslationRequestEntry;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
 import lombok.*;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -44,7 +44,7 @@ import java.time.Instant;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-@Log4j2
+@Slf4j
 @NoArgsConstructor
 public final class GoogleFreeTranslator implements ITranslator
 {
