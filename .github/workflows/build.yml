@@ -123,7 +123,7 @@ jobs:
                 "id": "s3.hemajoo-public",
                 "username": "${{ secrets.S3_HEMAJOO_USER }}",
                 "password": "${{ secrets.S3_HEMAJOO_TOKEN }}",
-                "configuration" { 
+                "configuration": { 
                   "region": "eu-west-3",
                   "publicRepository": true
                 }
@@ -132,7 +132,7 @@ jobs:
                 "id": "s3.hemajoo",
                 "username": "${{ secrets.S3_HEMAJOO_USER }}",
                 "password": "${{ secrets.S3_HEMAJOO_TOKEN }}",
-                "configuration" { 
+                "configuration": { 
                   "region": "eu-west-3",
                   "publicRepository": false
                 }
