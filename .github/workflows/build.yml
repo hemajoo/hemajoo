@@ -124,7 +124,7 @@ jobs:
                 "username": "${{ secrets.S3_HEMAJOO_USER }}",
                 "password": "${{ secrets.S3_HEMAJOO_TOKEN }}",
                 "configuration" { 
-                  "region": "eu-west-3"
+                  "region": "eu-west-3",
                   "publicRepository": true
                 }
               },
@@ -133,7 +133,7 @@ jobs:
                 "username": "${{ secrets.S3_HEMAJOO_USER }}",
                 "password": "${{ secrets.S3_HEMAJOO_TOKEN }}",
                 "configuration" { 
-                  "region": "eu-west-3"
+                  "region": "eu-west-3",
                   "publicRepository": false
                 }
               }
