@@ -22,8 +22,14 @@ package com.hemajoo.i18n.core.translation;
 public interface ITranslator
 {
     /**
-     * Translate a <b>translation process</b>, if one has been set. If none has been set, invoking this service has no effect!
-     * @throws TranslationException Thrown to indicate an error occurred while trying to translate some text.
+     * Translate the injected <b>translation process</b> if one has been set. If none has been set, invoking this service has no effect!
+     * @throws TranslationException Thrown to indicate an error occurred while trying to translate the request contained in a translation process.
      */
     void translate() throws TranslationException;
+
+    /**
+     * Close a <b>Google free translator</b>, freeing all its internal resources.
+     * @throws TranslationException Thrown to indicate an error occurred while trying to close the translator.
+     */
+    void close() throws TranslationException;
 }

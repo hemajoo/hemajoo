@@ -40,7 +40,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 /**
- * A <b>Google</b> free translator.
+ * A <b>Google free translator</b> used to translate resources from a language to another one making use of the free Google translation APIs.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
@@ -73,6 +73,10 @@ public final class GoogleFreeTranslator implements ITranslator
     private CloseableHttpClient httpClient = null;
 
 
+    /**
+     * Create a <b>Google free translator</b> given a translation request.
+     * @param request Translation request.
+     */
     @Builder(setterPrefix = "with")
     public GoogleFreeTranslator(final @NonNull ITranslationRequest request)
     {
@@ -83,7 +87,7 @@ public final class GoogleFreeTranslator implements ITranslator
     }
 
     /**
-     * Translate some text (on the fly).
+     * Translate some text.
      * @param sourceLanguage Source language.
      * @param targetLanguage Target language.
      * @param text Text to translate.
@@ -132,8 +136,27 @@ public final class GoogleFreeTranslator implements ITranslator
         }
     }
 
+    @Override
+    public void close() throws TranslationException
+    {
+        if (httpClient != null)
+        {
+            try
+            {
+                translationProcess = null;
+                translationResult = null;
+                httpClient.close();
+                httpClient = null;
+            }
+            catch (IOException e)
+            {
+                throw new TranslationException(e);
+            }
+        }
+    }
+
     /**
-     * Translate a request entry.
+     * Translate a translation request entry.
      * @param entry Translation request entry.
      * @throws TranslationException Thrown to indicate an error occurred while trying to translate a request entry.
      */
@@ -184,7 +207,7 @@ public final class GoogleFreeTranslator implements ITranslator
     }
 
     /**
-     * Build the URL to be used for the translation.
+     * Build the url to be used for the translation.
      * @param text Text to be translated.
      * @param sourceLanguage Source language.
      * @param targetLanguage Target language.
@@ -197,8 +220,8 @@ public final class GoogleFreeTranslator implements ITranslator
     }
 
     /**
-     * Extract the response string from the received HTTP response.
-     * @param response HTTP response.
+     * Extract the response string from the received <b>http</b> response.
+     * @param response Http response.
      * @return Response string.
      * @throws IOException Thrown to indicate an error occurred while trying to extracts the response string.
      */

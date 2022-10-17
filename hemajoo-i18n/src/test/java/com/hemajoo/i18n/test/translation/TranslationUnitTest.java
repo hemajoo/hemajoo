@@ -67,34 +67,33 @@ class TranslationUnitTest extends AbstractHemajooUnitTest
     @DisplayName("Translate a a resource bundle using the Google free translator")
     void testTranslateResourceBundleUsingGoogleFreeTranslator() throws TranslationException, LocalizationException, ResourceException, LanguageException
     {
+        GoogleFreeTranslator translator;
+
         I18nManager.getInstance().load("i18n/day");
         ResourceBundle sourceBundle = I18nManager.getInstance().getBundle("i18n/day", LanguageType.ENGLISH);
-        MemoryResourceBundle targetBundle = I18nManager.getInstance().getBundleOrCreate("i18n/day", LanguageType.CZECH, LanguageType.ENGLISH);
+        MemoryResourceBundle targetBundle = MemoryResourceBundle.copyAndClearValues(sourceBundle, LanguageType.CZECH);
 
-        GoogleFreeTranslator translator = null;
-        if (sourceBundle != null)
-        {
-            // Create a translation request
-            TranslationRequest request = new TranslationRequest(
-                    new MemoryResourceBundle(sourceBundle, LanguageType.from(sourceBundle.getLocale())),
-                    targetBundle);
+        // Create a translation request
+        TranslationRequest request = new TranslationRequest(
+                new MemoryResourceBundle(sourceBundle, LanguageType.from(sourceBundle.getLocale())),
+                targetBundle);
 
-            // Create a translator
-            translator = GoogleFreeTranslator.builder()
-                    .withRequest(request)
-                    .build();
+        // Create a translator
+        translator = GoogleFreeTranslator.builder()
+                .withRequest(request)
+                .build();
 
-            // Translate the content of the translation request
-            translator.translate();
-            assertThat(translator.getTranslationProcess().getElapsed()).isNotZero();
+        // Translate the content of the translation request
+        translator.translate();
+        assertThat(translator.getTranslationProcess().getElapsed()).isNotZero();
+        translator.close();
 
-            LOGGER.info(String.format(
-                    "Resource bundle: '%s_%s' successfully translated to: '%s' in: '%s' ms",
-                    sourceBundle.getBaseBundleName(),
-                    sourceBundle.getLocale(),
-                    targetBundle.getLanguage(),
-                    translator.getTranslationProcess().getElapsed()));
-        }
+        LOGGER.info(String.format(
+                "Resource bundle: '%s_%s' successfully translated to: '%s' in: '%s' ms",
+                sourceBundle.getBaseBundleName(),
+                sourceBundle.getLocale(),
+                targetBundle.getLanguage(),
+                translator.getTranslationProcess().getElapsed()));
     }
 
     @Test
@@ -160,8 +159,7 @@ class TranslationUnitTest extends AbstractHemajooUnitTest
                 "The cost of the documentation may surpass its value as it is very time-consuming\n";
 
         // Create an instant translator
-        String translated = GoogleFreeTranslator.translate(LanguageType.ENGLISH, LanguageType.POLISH, text); // Will not preserve lines feed!
-
-        int i = 0;
+        String translation = GoogleFreeTranslator.translate(LanguageType.ENGLISH, LanguageType.POLISH, text); // Will not preserve lines feed!
+        assertThat(translation).isNotNull();
     }
 }

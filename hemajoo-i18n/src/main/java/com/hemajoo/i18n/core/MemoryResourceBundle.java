@@ -58,21 +58,85 @@ public class MemoryResourceBundle
         this.baseBundleName = baseBundleName;
     }
 
-    public String getKey(final @NonNull String key)
+    /**
+     * Create a {@link MemoryResourceBundle} object copied from a {@link MemoryResourceBundle} object with emptied values (keys are preserved).
+     * @param source Resource bundle object.
+     * @param language Target language
+     * @return Newly created {@link MemoryResourceBundle} object.
+     */
+    public static MemoryResourceBundle copyEmpty(final @NonNull MemoryResourceBundle source, final LanguageType language)
     {
-        return (String) properties.get(key);
+        MemoryResourceBundle copy = new MemoryResourceBundle(source.getProperties(), language, source.getBaseBundleName());
+        clearValues(copy);
+
+        return copy;
     }
 
+    /**
+     * Create a {@link MemoryResourceBundle} object copied from a {@link ResourceBundle} object with emptied values (keys are preserved).
+     * @param source Properties object.
+     * @param language Target language
+     * @return Newly created {@link MemoryResourceBundle} object.
+     */
+    public static MemoryResourceBundle copyEmpty(final @NonNull ResourceBundle source, final LanguageType language)
+    {
+        MemoryResourceBundle copy = new MemoryResourceBundle(source, language);
+        clearValues(copy);
+
+        return copy;
+    }
+
+    /**
+     * Create a {@link MemoryResourceBundle} object copied from a based {@link Properties} object with emptied values (keys are preserved).
+     * @param source Properties object.
+     * @param language Target language
+     * @param name Base name (properties or resource bundle).
+     * @return Newly created {@link MemoryResourceBundle} object.
+     */
+    public static MemoryResourceBundle copyEmpty(final @NonNull Properties source, final LanguageType language, final @NonNull String name)
+    {
+        MemoryResourceBundle copy = new MemoryResourceBundle(source, language, name);
+        clearValues(copy);
+
+        return copy;
+    }
+
+    /**
+     * Clear the values of the given {@link MemoryResourceBundle}
+     * @param bundle Memory resource bundle.
+     */
+    private static void clearValues(final @NonNull MemoryResourceBundle bundle)
+    {
+        for (String key : bundle.getKeys())
+        {
+            bundle.getProperties().put(key, "");
+        }
+    }
+
+    /**
+     * Return the value.
+     * @param key Key.
+     * @return Key value.
+     */
     public String getValue(final @NonNull String key)
     {
         return properties.getProperty(key);
     }
 
+    /**
+     * Update a value.
+     * @param key Key.
+     * @param value Value to update.
+     */
     public void updateValue(final @NonNull String key, final String value)
     {
         properties.put(key, value);
     }
 
+    /**
+     * Return a list of the keys.
+     * @return List of keys.
+     */
     public List<String> getKeys()
     {
         List<Object> keyList = Collections.list(properties.keys());

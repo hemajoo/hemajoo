@@ -135,7 +135,7 @@
 <!--            <url>s3://maven.hemajoo/releases</url>-->
 <!--        </repository>-->
 
-            <!-- Used to deploy in the Hemajoo PUBLIC maven registry -->
+        <!-- Used to deploy in the Hemajoo PUBLIC maven registry -->
         <snapshotRepository>
             <id>s3.hemajoo-public</id> <!-- Must match one entry in the server section with the same id -->
             <name>AWS Hemajoo - Public Maven Registry (Snapshots)</name>
@@ -161,7 +161,7 @@
             </snapshots>
         </repository>
 
-        <!-- Hemajoo private Maven registry -->
+        <!-- Hemajoo PRIVATE Maven registry for Snapshots -->
         <repository>
             <id>s3.hemajoo.snapshots</id> <!-- Must match one entry in the server section with the same id -->
             <name>AWS Hemajoo - Private Maven Registry (Snapshots)</name>
@@ -173,6 +173,7 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        <!-- Hemajoo PRIVATE Maven registry for Releases -->
         <repository>
             <id>s3.hemajoo.releases</id> <!-- Must match one entry in the server section with the same id -->
             <name>AWS Hemajoo - Private Maven Registry (Releases)</name>
@@ -184,6 +185,31 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
+
+<!--        &lt;!&ndash; Hemajoo PUBLIC Maven registry for Snapshots &ndash;&gt;-->
+<!--        <repository>-->
+<!--            <id>s3.hemajoo-public.snapshots</id> &lt;!&ndash; Must match one entry in the server section with the same id &ndash;&gt;-->
+<!--            <name>AWS Hemajoo - Public Maven Registry (Snapshots)</name>-->
+<!--            <url>s3://maven.hemajoo-public/snapshots</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--            </snapshots>-->
+<!--            <releases>-->
+<!--                <enabled>false</enabled>-->
+<!--            </releases>-->
+<!--        </repository>-->
+<!--        &lt;!&ndash; Hemajoo PUBLIC Maven registry for Releases &ndash;&gt;-->
+<!--        <repository>-->
+<!--            <id>s3.hemajoo-public.releases</id> &lt;!&ndash; Must match one entry in the server section with the same id &ndash;&gt;-->
+<!--            <name>AWS Hemajoo - Public Maven Registry (Releases)</name>-->
+<!--            <url>s3://maven.hemajoo-public/releases</url>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--            <releases>-->
+<!--                <enabled>true</enabled>-->
+<!--            </releases>-->
+<!--        </repository>-->
 
     </repositories>
 
