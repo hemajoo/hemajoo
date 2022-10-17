@@ -55,7 +55,7 @@ public class MemoryResourceBundle
     {
         this.properties = properties;
         this.language = language;
-        this.baseBundleName = baseBundleName;
+        this.baseBundleName = baseBundleName + "_" + language.getLocale().getLanguage();
     }
 
     /**
