@@ -71,7 +71,7 @@ class TranslationUnitTest extends AbstractHemajooUnitTest
 
         I18nManager.getInstance().load("i18n/day");
         ResourceBundle sourceBundle = I18nManager.getInstance().getBundle("i18n/day", LanguageType.ENGLISH);
-        MemoryResourceBundle targetBundle = MemoryResourceBundle.copyAndClearValues(sourceBundle, LanguageType.CZECH);
+        MemoryResourceBundle targetBundle = MemoryResourceBundle.copyEmpty(sourceBundle, LanguageType.CZECH);
 
         // Create a translation request
         TranslationRequest request = new TranslationRequest(
@@ -86,7 +86,6 @@ class TranslationUnitTest extends AbstractHemajooUnitTest
         // Translate the content of the translation request
         translator.translate();
         assertThat(translator.getTranslationProcess().getElapsed()).isNotZero();
-        translator.close();
 
         LOGGER.info(String.format(
                 "Resource bundle: '%s_%s' successfully translated to: '%s' in: '%s' ms",
@@ -94,6 +93,8 @@ class TranslationUnitTest extends AbstractHemajooUnitTest
                 sourceBundle.getLocale(),
                 targetBundle.getLanguage(),
                 translator.getTranslationProcess().getElapsed()));
+
+        translator.close();
     }
 
     @Test
