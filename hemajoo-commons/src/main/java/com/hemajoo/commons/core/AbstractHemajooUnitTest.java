@@ -14,7 +14,7 @@
  */
 package com.hemajoo.commons.core;
 
-import com.github.javafaker.Faker;
+import net.datafaker.Faker;
 
 /**
  * Abstract implementation of a <b>Hemajoo</b> unit test.

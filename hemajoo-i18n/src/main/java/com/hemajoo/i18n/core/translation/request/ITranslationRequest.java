@@ -14,11 +14,12 @@
  */
 package com.hemajoo.i18n.core.translation.request;
 
+import com.hemajoo.i18n.core.localization.data.LanguageType;
 import com.hemajoo.i18n.core.translation.TranslationException;
+import com.hemajoo.i18n.core.translation.result.ITranslationResult;
 import lombok.NonNull;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -78,10 +79,10 @@ public interface ITranslationRequest
     void setSourceProperties(final @NonNull String content);
 
     /**
-     * Set the locale for the source.
-     * @param locale Locale for the source.
+     * Set the language for the source.
+     * @param language Source language.
      */
-    void setSourceLocale(final @NonNull Locale locale);
+    void setSourceLanguage(final @NonNull LanguageType language);
 
     /**
      * Set the target properties.
@@ -90,22 +91,22 @@ public interface ITranslationRequest
     void setTargetProperties(final @NonNull String content);
 
     /**
-     * Set the locale for the target.
-     * @param locale Locale for the target.
+     * Set the language for the target.
+     * @param language Target language.
      */
-    void setTargetLocale(final @NonNull Locale locale);
+    void setTargetLanguage(final @NonNull LanguageType language);
 
     /**
-     * Return the locale for the source translation.
-     * @return Locale.
+     * Return the language for the source translation.
+     * @return Language.
      */
-    Locale getSourceLocale();
+    LanguageType getSourceLanguage();
 
     /**
-     * Return the locale for the target translation.
-     * @return Locale.
+     * Return the language for the target translation.
+     * @return Language.
      */
-    Locale getTargetLocale();
+    LanguageType getTargetLanguage();
 
 
     /**
@@ -125,6 +126,10 @@ public interface ITranslationRequest
      * @return Number of request entries to translate.
      */
     int getCount();
+
+    Object getTranslationResult() throws TranslationException;
+
+    void updateEntry(@NonNull ITranslationRequestEntry entry, @NonNull ITranslationResult result);
 
     /**
      * Find the translation request entry for the given value.

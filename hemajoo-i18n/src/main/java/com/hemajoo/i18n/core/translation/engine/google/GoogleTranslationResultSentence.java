@@ -14,9 +14,10 @@
  */
 package com.hemajoo.i18n.core.translation.engine.google;
 
-import com.google.gson.annotations.SerializedName;
 import com.hemajoo.i18n.core.translation.result.ITranslationResultSentence;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -24,6 +25,8 @@ import lombok.Setter;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
+@NoArgsConstructor
+@AllArgsConstructor
 public final class GoogleTranslationResultSentence implements ITranslationResultSentence
 {
     /**
@@ -31,7 +34,6 @@ public final class GoogleTranslationResultSentence implements ITranslationResult
      */
     @Getter
     @Setter
-    @SerializedName("trans")
     private String translation;
 
     /**
@@ -39,7 +41,6 @@ public final class GoogleTranslationResultSentence implements ITranslationResult
      */
     @Getter
     @Setter
-    @SerializedName("orig")
     private String original;
 
     /**
@@ -47,6 +48,5 @@ public final class GoogleTranslationResultSentence implements ITranslationResult
      */
     @Getter
     @Setter
-    @SerializedName("backend")
     private int backend;
 }

@@ -21,7 +21,7 @@ import com.hemajoo.commons.test.core.container.db.DatabaseContainer;
 import com.hemajoo.commons.test.core.container.db.DatabaseContainerType;
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext
 @Testcontainers // Not to be used to keep container alive after the tests!
 @SpringBootTest(classes = { DatabaseTestConfiguration.class })
-@Log4j2
+@Slf4j
 class DatabaseContainerUnitTest extends AbstractHemajooUnitTest
 {
     /**

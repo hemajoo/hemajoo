@@ -14,9 +14,8 @@
  */
 package com.hemajoo.i18n.core.localization;
 
-import com.google.gson.annotations.SerializedName;
 import lombok.*;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -26,7 +25,7 @@ import java.util.Locale;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
-@Log4j2
+@Slf4j
 @NoArgsConstructor
 @EqualsAndHashCode
 public final class InstantLocalization implements Serializable
@@ -34,7 +33,6 @@ public final class InstantLocalization implements Serializable
     /**
      * Localized value.
      */
-    @SerializedName("string:value")
     @Getter
     @Setter
     private String value;
@@ -42,14 +40,12 @@ public final class InstantLocalization implements Serializable
     /**
      * Original value.
      */
-    @SerializedName("string:original")
     @Getter
     private String original;
 
     /**
      * Resource bundle pathname.
      */
-    @SerializedName("string:bundle")
     @Getter
     @Setter
     @EqualsAndHashCode.Exclude
@@ -58,7 +54,6 @@ public final class InstantLocalization implements Serializable
     /**
      * Resource bundle key.
      */
-    @SerializedName("string:key")
     @Getter
     @Setter
     @EqualsAndHashCode.Exclude

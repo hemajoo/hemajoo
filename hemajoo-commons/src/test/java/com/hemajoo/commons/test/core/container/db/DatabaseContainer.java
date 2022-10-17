@@ -19,7 +19,7 @@ import com.hemajoo.commons.exception.NotYetImplementedException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.containers.*;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.couchbase.BucketDefinition;
@@ -34,7 +34,7 @@ import java.time.Duration;
  * @version 1.0.0
  * @see DatabaseContainerType
  */
-@Log4j2
+@Slf4j
 public class DatabaseContainer
 {
     /**

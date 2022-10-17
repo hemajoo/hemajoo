@@ -20,7 +20,9 @@ import com.hemajoo.i18n.core.translation.request.ITranslationRequestEntry;
 import com.hemajoo.i18n.core.translation.request.TranslationRequestEntry;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.util.Map;
 import java.util.Optional;
@@ -30,6 +32,7 @@ import java.util.Optional;
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
+@NoArgsConstructor
 public class TranslationProcess implements ITranslationProcess
 {
     /**
@@ -65,6 +68,10 @@ public class TranslationProcess implements ITranslationProcess
      * Document content.
      */
     private final StringBuilder document = new StringBuilder();
+
+    @Getter
+    @Setter
+    private long elapsed;
 
     /**
      * Create a translation process.
@@ -109,6 +116,15 @@ public class TranslationProcess implements ITranslationProcess
         generateDocument();
 
         return document.toString();
+    }
+
+    @Override
+    public void updateEntry(@NonNull ITranslationRequestEntry entry, @NonNull ITranslationResult result)
+    {
+        if (request != null)
+        {
+            request.updateEntry(entry, result);
+        }
     }
 
     /**
