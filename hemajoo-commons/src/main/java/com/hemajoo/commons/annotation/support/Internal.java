@@ -17,7 +17,7 @@ package com.hemajoo.commons.annotation.support;
 import java.lang.annotation.*;
 
 /**
- * Types implementing this interface are marked as reserved for internal use only by the development team and are not
+ * Types annotated with the {@link Internal} annotation are marked as reserved for <b>internal use only</b> by the <b>Hemajoo</b> development team and are not
  * supposed to be used directly nor extended!
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0

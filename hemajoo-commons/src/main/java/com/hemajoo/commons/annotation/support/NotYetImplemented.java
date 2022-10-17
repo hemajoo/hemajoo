@@ -14,25 +14,20 @@
  */
 package com.hemajoo.commons.annotation.support;
 
+import com.hemajoo.commons.exception.NotYetImplementedException;
+
 import java.lang.annotation.*;
 
 /**
- * Types and/or methods annotated with the {@link ScheduledForRemoval} annotation are subject to a removal in a future version.<br><br>
- * It is a stronger variant of the {@link Deprecated} annotation.
- * <br><br>
- * Since many tools aren't aware of this annotation it should be used as an addition to the {@link Deprecated} annotation or the {@code @deprecated} Javadoc tag.
- * <br>
+ * Methods annotated with the {@link NotYetImplemented} annotation are marked as not being yet implemented!<br><br>
+ * When invoked, they generally throw a {@link NotYetImplementedException}.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.METHOD })
-public @interface ScheduledForRemoval
+@Target(ElementType.METHOD)
+public @interface NotYetImplemented
 {
-    /**
-     * Version of the library.
-     * @return Version.
-     */
-    String version() default "";
+    // Marker interface
 }

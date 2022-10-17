@@ -12,7 +12,6 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-
 package com.hemajoo.i18n.core;
 
 import com.hemajoo.i18n.core.localization.data.LanguageType;
@@ -66,7 +65,7 @@ public class MemoryResourceBundle
      */
     public static MemoryResourceBundle copyEmpty(final @NonNull MemoryResourceBundle source, final LanguageType language)
     {
-        MemoryResourceBundle copy = new MemoryResourceBundle(source.getProperties(), language, source.getBaseBundleName());
+        MemoryResourceBundle copy = new MemoryResourceBundle(copyProperties(source.getProperties()), language, source.getBaseBundleName());
         clearValues(copy);
 
         return copy;
@@ -80,7 +79,8 @@ public class MemoryResourceBundle
      */
     public static MemoryResourceBundle copyEmpty(final @NonNull ResourceBundle source, final LanguageType language)
     {
-        MemoryResourceBundle copy = new MemoryResourceBundle(source, language);
+        MemoryResourceBundle temporary = new MemoryResourceBundle(source, language); //BUG Do a copy of the resource bundle properties!
+        MemoryResourceBundle copy = new MemoryResourceBundle(temporary.getProperties(), language, source.getBaseBundleName());
         clearValues(copy);
 
         return copy;
@@ -95,8 +95,19 @@ public class MemoryResourceBundle
      */
     public static MemoryResourceBundle copyEmpty(final @NonNull Properties source, final LanguageType language, final @NonNull String name)
     {
-        MemoryResourceBundle copy = new MemoryResourceBundle(source, language, name);
+        MemoryResourceBundle copy = new MemoryResourceBundle(copyProperties(source), language, name);
         clearValues(copy);
+
+        return copy;
+    }
+
+    private static Properties copyProperties(final @NonNull Properties properties)
+    {
+        Properties copy = new Properties(properties.size());
+        for (Object key : properties.keySet())
+        {
+            copy.put(key, properties.getProperty((String) key));
+        }
 
         return copy;
     }

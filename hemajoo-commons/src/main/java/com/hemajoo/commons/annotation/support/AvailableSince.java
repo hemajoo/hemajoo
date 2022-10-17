@@ -17,11 +17,11 @@ package com.hemajoo.commons.annotation.support;
 import java.lang.annotation.*;
 
 /**
- * Indicates that the annotated element firstly appeared in the specified version of the library, so the code using
- * that element won't be compatible with older versions of the library. This information may be used by IDEs and static
- * analysis tools.
- * This annotation can be used instead of '@since' Javadoc tag if it's needed to keep that information in *.class files
- * or if you need to generate them automatically.
+ * Types and methods annotated with the {@link AvailableSince} annotation are available since the given version of the library, meaning the code using
+ * such elements won't or may not be compatible with older versions of the library.
+ * <br><br>
+ * This information may be used by IDEs and static analysis tools.<br>
+ * This annotation can be used instead of '@since' Javadoc tag if it's needed to keep such information in <b>*.class</b> files or if there is a need to generate them automatically.
  * <br>
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0

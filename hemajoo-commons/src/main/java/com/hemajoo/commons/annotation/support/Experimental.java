@@ -17,8 +17,8 @@ package com.hemajoo.commons.annotation.support;
 import java.lang.annotation.*;
 
 /**
- * Types implementing this interface are marked as experimental and can be changed or removed at any time by the
- * development team without any prior notice.
+ * Types and methods annotated with {@link Experimental} annotation are marked as <b>experimental ones</b> meaning that they can be removed, changed at any time by the <b>Hemajoo</b>
+ * development team without any prior notice!
  * <br>
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
