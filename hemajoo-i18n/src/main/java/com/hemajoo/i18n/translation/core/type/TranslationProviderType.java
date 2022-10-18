@@ -12,33 +12,42 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.core.translation.result;
-
-import com.hemajoo.i18n.core.translation.request.ITranslationRequest;
-import com.hemajoo.i18n.core.translation.request.ITranslationRequestEntry;
-import com.hemajoo.i18n.translation.core.type.TranslationProviderType;
-
-import java.io.Serializable;
-import java.util.List;
+package com.hemajoo.i18n.translation.core.type;
 
 /**
- * Interface defining the behavior of a translation result.
+ * Enumeration exposing the possible <b>translation providers</b> type.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
- * see {@link ITranslationRequest}
- * see {@link ITranslationRequestEntry}
  */
-public interface ITranslationResult extends Serializable
+public enum TranslationProviderType
 {
     /**
-     * Return the result sentences of a translation.
-     * @return List of translation sentences.
+     * <b>Unknown</b> translation provider.
      */
-    List<ITranslationResultSentence> getSentences();
+    UNKNOWN,
 
     /**
-     * Return the translation provider type.
-     * @return Translation provider type.
+     * <b>Microsoft Azure</b>> translation provider.
      */
-    TranslationProviderType getProviderType();
+    AZURE,
+
+    /**
+     * <b>IBM</b>> translation provider.
+     */
+    IBM,
+
+    /**
+     * <b>Google</b>> free translation provider.
+     */
+    GOOGLE_FREE,
+
+    /**
+     * <b>Google</b>> translation provider.
+     */
+    GOOGLE,
+
+    /**
+     * <b>Other</b>> (unspecified) translation provider.
+     */
+    OTHER;
 }

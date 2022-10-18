@@ -158,8 +158,8 @@ public class TranslationProcess implements ITranslationProcess
     private void computeRequireProcessing()
     {
         // Do we have at least one entry that require translation?
-        Optional<TranslationRequestEntry> element = getRequest().getEntries().stream()
-                .filter(TranslationRequestEntry::requireTranslation)
+        Optional<ITranslationRequestEntry> element = getRequest().getEntries().stream()
+                .filter(e -> e.requireTranslation())
                 .findAny();
 
         requireProcessing = element.isPresent();

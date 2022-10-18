@@ -16,9 +16,9 @@ package com.hemajoo.i18n.core.translation.request;
 
 import com.hemajoo.i18n.core.MemoryResourceBundle;
 import com.hemajoo.i18n.core.localization.data.LanguageType;
-import com.hemajoo.i18n.core.translation.TranslationDocumentType;
-import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
+import com.hemajoo.i18n.translation.core.TranslationException;
+import com.hemajoo.i18n.translation.core.type.TranslationFileType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -30,15 +30,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A translation request is used to submit multiple text entries to be translated at once.
+ * A <b>translation request</b> is used to be able to submit multiple entries to be translated at once.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */
 @NoArgsConstructor
 public class TranslationRequest implements ITranslationRequest
 {
-    @Getter
-    private final List<TranslationRequestEntry> entries = new ArrayList<>();
+    private final List<ITranslationRequestEntry> entries = new ArrayList<>();
 
     /**
      * Source property file entries.
@@ -73,11 +72,11 @@ public class TranslationRequest implements ITranslationRequest
     private LanguageType targetLanguage;
 
     @Getter
-    private TranslationDocumentType documentType;
+    private TranslationFileType documentType;
 
     public TranslationRequest(final @NonNull MemoryResourceBundle sourceResourceBundle, final MemoryResourceBundle targetResourceBundle)
     {
-        documentType = TranslationDocumentType.RESOURCE_BUNDLE;
+        documentType = TranslationFileType.RESOURCE_BUNDLE;
         setSourceLanguage(sourceResourceBundle.getLanguage());
         setTargetLanguage(targetResourceBundle.getLanguage());
         setSourceResourceBundle(sourceResourceBundle);
@@ -86,11 +85,16 @@ public class TranslationRequest implements ITranslationRequest
 
     public TranslationRequest(final @NonNull LanguageType sourceLanguage, final @NonNull LanguageType targetLanguage, final @NonNull String textDocument)
     {
-        documentType = TranslationDocumentType.TEXT;
+        documentType = TranslationFileType.TEXT;
         setSourceLanguage(sourceLanguage);
         setTargetLanguage(targetLanguage);
         setSourceProperties(textDocument);
         setTargetProperties(null); // Should map with source
+    }
+
+    public final List<ITranslationRequestEntry> getEntries()
+    {
+        return entries;
     }
 
     @Override
@@ -144,7 +148,7 @@ public class TranslationRequest implements ITranslationRequest
                 entryParts = s.split("=");
                 if (entryParts.length == 1) // Not a resource bundle, just a text file
                 {
-                    if (documentType == TranslationDocumentType.PROPERTIES || documentType == TranslationDocumentType.RESOURCE_BUNDLE)
+                    if (documentType == TranslationFileType.PROPERTIES || documentType == TranslationFileType.RESOURCE_BUNDLE)
                     {
                         sources.put(entryParts[0], "");
                     }

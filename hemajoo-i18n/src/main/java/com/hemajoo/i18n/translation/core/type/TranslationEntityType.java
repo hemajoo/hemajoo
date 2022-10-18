@@ -12,15 +12,22 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.core.translation;
+package com.hemajoo.i18n.translation.core.type;
 
-public enum TranslationDocumentType
+public enum TranslationEntityType
 {
-    TEXT,
+    /**
+     * <b>Unknown</b> translation entity type.
+     */
+    UNKNOWN,
 
-    FILE_TEXT,
+    /**
+     * <b>Source</b> translation entity type.
+     */
+    SOURCE,
 
-    RESOURCE_BUNDLE,
-
-    PROPERTIES,
+    /**
+     * <b>Target</b> translation entity type.
+     */
+    TARGET;
 }

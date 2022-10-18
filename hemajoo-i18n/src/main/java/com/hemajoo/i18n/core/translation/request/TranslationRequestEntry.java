@@ -23,7 +23,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * A translation request entry.
+ * A <b>translation request entry</b> is used to submit an atomic translation.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */

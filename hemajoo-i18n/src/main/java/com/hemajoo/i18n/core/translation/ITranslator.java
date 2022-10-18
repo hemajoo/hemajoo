@@ -14,6 +14,8 @@
  */
 package com.hemajoo.i18n.core.translation;
 
+import com.hemajoo.i18n.translation.core.TranslationException;
+
 /**
  * Interface defining the behavior of a translator.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>

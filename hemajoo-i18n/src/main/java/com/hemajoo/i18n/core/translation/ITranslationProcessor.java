@@ -17,6 +17,7 @@ package com.hemajoo.i18n.core.translation;
 import com.hemajoo.i18n.core.translation.process.ITranslationProcess;
 import com.hemajoo.i18n.core.translation.request.ITranslationRequestEntry;
 import com.hemajoo.i18n.core.translation.result.ITranslationResultSentence;
+import com.hemajoo.i18n.translation.core.TranslationException;
 import lombok.NonNull;
 
 /**

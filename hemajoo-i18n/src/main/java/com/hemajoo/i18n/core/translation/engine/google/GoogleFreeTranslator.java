@@ -16,12 +16,12 @@ package com.hemajoo.i18n.core.translation.engine.google;
 
 import com.hemajoo.i18n.core.localization.data.LanguageType;
 import com.hemajoo.i18n.core.translation.ITranslator;
-import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.process.ITranslationProcess;
 import com.hemajoo.i18n.core.translation.process.TranslationProcess;
 import com.hemajoo.i18n.core.translation.request.ITranslationRequest;
 import com.hemajoo.i18n.core.translation.request.ITranslationRequestEntry;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
+import com.hemajoo.i18n.translation.core.TranslationException;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;

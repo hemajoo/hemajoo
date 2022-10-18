@@ -14,9 +14,10 @@
  */
 package com.hemajoo.i18n.core.translation.engine.google;
 
-import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
 import com.hemajoo.i18n.core.translation.result.ITranslationResultSentence;
+import com.hemajoo.i18n.translation.core.TranslationException;
+import com.hemajoo.i18n.translation.core.type.TranslationProviderType;
 import lombok.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -87,7 +88,7 @@ public final class GoogleTranslationResult implements ITranslationResult
     @Override
     public TranslationProviderType getProviderType()
     {
-        return TranslationProviderType.GOOGLE_FREE_TRANSLATE_API;
+        return TranslationProviderType.GOOGLE_FREE;
     }
 
     /**

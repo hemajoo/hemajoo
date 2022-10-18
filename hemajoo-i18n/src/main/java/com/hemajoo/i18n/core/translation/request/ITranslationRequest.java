@@ -15,8 +15,8 @@
 package com.hemajoo.i18n.core.translation.request;
 
 import com.hemajoo.i18n.core.localization.data.LanguageType;
-import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
+import com.hemajoo.i18n.translation.core.TranslationException;
 import lombok.NonNull;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public interface ITranslationRequest
      * Return the translation request entries.
      * @return Translation request entries.
      */
-    List<TranslationRequestEntry> getEntries();
+    List<ITranslationRequestEntry> getEntries();
 
     /**
      * Retrieve a target property entry given its key.

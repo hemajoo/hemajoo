@@ -12,7 +12,7 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.core.translation;
+package com.hemajoo.i18n.translation.core;
 
 import com.hemajoo.commons.exception.HemajooException;
 

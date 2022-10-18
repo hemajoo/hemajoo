@@ -15,10 +15,10 @@
 package com.hemajoo.i18n.core.translation.process;
 
 import com.hemajoo.i18n.core.translation.ITranslationProcessor;
-import com.hemajoo.i18n.core.translation.TranslationException;
 import com.hemajoo.i18n.core.translation.request.ITranslationRequest;
 import com.hemajoo.i18n.core.translation.request.ITranslationRequestEntry;
 import com.hemajoo.i18n.core.translation.result.ITranslationResult;
+import com.hemajoo.i18n.translation.core.TranslationException;
 import lombok.NonNull;
 
 /**
