@@ -14,10 +14,10 @@
  */
 package com.hemajoo.i18n.test.localization;
 
-import com.hemajoo.i18n.core.localization.I18nManager;
-import com.hemajoo.i18n.core.localization.InstantLocalization;
-import com.hemajoo.i18n.core.localization.LocalizationException;
-import com.hemajoo.i18n.core.localization.data.LanguageType;
+import com.hemajoo.i18n.localization.I18nManager;
+import com.hemajoo.i18n.localization.InstantLocalization;
+import com.hemajoo.i18n.localization.data.LanguageType;
+import com.hemajoo.i18n.localization.exception.LocalizationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

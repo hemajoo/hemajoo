@@ -12,33 +12,42 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.test.localization;
+package com.hemajoo.i18n.translation.type;
 
-import com.hemajoo.i18n.localization.Localize;
-import com.hemajoo.i18n.localization.annotation.I18n;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-@I18n(bundle = "i18n/test")
-public final class QuoteOfTheDay implements Localize
+/**
+ * Enumeration exposing the possible <b>translation providers</b> type.
+ * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
+ * @version 1.0.0
+ */
+public enum TranslationProviderType
 {
-    @Getter
-    private final String quoteNumber;
+    /**
+     * <b>Unknown</b> translation provider.
+     */
+    UNKNOWN,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.name")
-    private String quoteName;
+    /**
+     * <b>Microsoft Azure</b>> translation provider.
+     */
+    AZURE,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.text")
-    private String quoteDescription;
+    /**
+     * <b>IBM</b>> translation provider.
+     */
+    IBM,
 
-    @Builder(setterPrefix = "with")
-    public QuoteOfTheDay(final int number)
-    {
-        this.quoteNumber = String.valueOf(number); // Only 1 or 2 at this time!
-    }
+    /**
+     * <b>Google</b>> free translation provider.
+     */
+    GOOGLE_FREE,
+
+    /**
+     * <b>Google</b>> translation provider.
+     */
+    GOOGLE,
+
+    /**
+     * <b>Other</b>> (unspecified) translation provider.
+     */
+    OTHER;
 }

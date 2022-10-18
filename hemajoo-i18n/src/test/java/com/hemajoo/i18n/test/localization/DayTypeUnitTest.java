@@ -15,8 +15,8 @@
 package com.hemajoo.i18n.test.localization;
 
 import com.hemajoo.commons.core.DatabaseTestConfiguration;
-import com.hemajoo.i18n.core.localization.LocalizationException;
-import com.hemajoo.i18n.data.DayType;
+import com.hemajoo.i18n.localization.data.DayType;
+import com.hemajoo.i18n.localization.exception.LocalizationException;
 import lombok.NonNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -27,7 +27,7 @@ import java.util.Locale;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * A class for unit testing the {@link com.hemajoo.i18n.data.DayType} localized enumeration.
+ * A class for unit testing the {@link DayType} localized enumeration.
  * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
  * @version 1.0.0
  */

@@ -12,33 +12,27 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.test.localization;
+package com.hemajoo.i18n.localization.type;
 
-import com.hemajoo.i18n.localization.Localize;
-import com.hemajoo.i18n.localization.annotation.I18n;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-@I18n(bundle = "i18n/test")
-public final class QuoteOfTheDay implements Localize
+/**
+ * Enumerate the several <b>localization invocation</b> type values.
+ * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
+ * @version 1.0.0
+ */
+public enum LocalizationInvocationType
 {
-    @Getter
-    private final String quoteNumber;
+    /**
+     * Localization invocation is unknown.
+     */
+    UNKNOWN,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.name")
-    private String quoteName;
+    /**
+     * Localization invocation has been done through a method.
+     */
+    METHOD,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.text")
-    private String quoteDescription;
-
-    @Builder(setterPrefix = "with")
-    public QuoteOfTheDay(final int number)
-    {
-        this.quoteNumber = String.valueOf(number); // Only 1 or 2 at this time!
-    }
+    /**
+     * Localization invocation has been done through a field.
+     */
+    FIELD
 }

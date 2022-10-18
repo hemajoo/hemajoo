@@ -14,7 +14,7 @@
  */
 package com.hemajoo.i18n.core;
 
-import com.hemajoo.i18n.core.localization.data.LanguageType;
+import com.hemajoo.i18n.localization.data.LanguageType;
 import lombok.Getter;
 import lombok.NonNull;
 

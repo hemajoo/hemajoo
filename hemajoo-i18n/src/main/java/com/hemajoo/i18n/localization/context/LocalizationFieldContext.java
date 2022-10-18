@@ -12,33 +12,46 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.test.localization;
+package com.hemajoo.i18n.localization.context;
 
-import com.hemajoo.i18n.localization.Localize;
-import com.hemajoo.i18n.localization.annotation.I18n;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
-@I18n(bundle = "i18n/test")
-public final class QuoteOfTheDay implements Localize
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+
+/**
+ * Field localization context.
+ * @author <a href="mailto:christophe.resse@gmail.com">Christophe Resse</a>
+ * @version 1.0.0
+ */
+@NoArgsConstructor
+public class LocalizationFieldContext
 {
+    /**
+     * Field.
+     */
     @Getter
-    private final String quoteNumber;
-
     @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.name")
-    private String quoteName;
+    private Field field;
 
+    /**
+     * Field's localization annotation.
+     */
+    @Getter
     @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.text")
-    private String quoteDescription;
+    private Annotation fieldAnnotation;
 
-    @Builder(setterPrefix = "with")
-    public QuoteOfTheDay(final int number)
+    /**
+     * Create a field localization context.
+     * @param field Field.
+     * @param annotation Localization annotation.
+     */
+    public LocalizationFieldContext(final @NonNull Field field, final @NonNull Annotation annotation)
     {
-        this.quoteNumber = String.valueOf(number); // Only 1 or 2 at this time!
+        this.field = field;
+        this.fieldAnnotation = annotation;
     }
 }

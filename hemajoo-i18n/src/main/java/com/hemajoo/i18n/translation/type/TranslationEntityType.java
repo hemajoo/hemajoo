@@ -12,33 +12,22 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.test.localization;
+package com.hemajoo.i18n.translation.type;
 
-import com.hemajoo.i18n.localization.Localize;
-import com.hemajoo.i18n.localization.annotation.I18n;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-@I18n(bundle = "i18n/test")
-public final class QuoteOfTheDay implements Localize
+public enum TranslationEntityType
 {
-    @Getter
-    private final String quoteNumber;
+    /**
+     * <b>Unknown</b> translation entity type.
+     */
+    UNKNOWN,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.name")
-    private String quoteName;
+    /**
+     * <b>Source</b> translation entity type.
+     */
+    SOURCE,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.text")
-    private String quoteDescription;
-
-    @Builder(setterPrefix = "with")
-    public QuoteOfTheDay(final int number)
-    {
-        this.quoteNumber = String.valueOf(number); // Only 1 or 2 at this time!
-    }
+    /**
+     * <b>Target</b> translation entity type.
+     */
+    TARGET;
 }

@@ -12,33 +12,27 @@
  * Hemajoo Systems Inc.
  * -----------------------------------------------------------------------------------------------
  */
-package com.hemajoo.i18n.test.localization;
+package com.hemajoo.i18n.translation.type;
 
-import com.hemajoo.i18n.localization.Localize;
-import com.hemajoo.i18n.localization.annotation.I18n;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-@I18n(bundle = "i18n/test")
-public final class QuoteOfTheDay implements Localize
+public enum TranslationFileType
 {
-    @Getter
-    private final String quoteNumber;
+    /**
+     * Original source file for translation is a <b>text document</b>.
+     */
+    TEXT,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.name")
-    private String quoteName;
+    /**
+     * Original source file for translation is a <b>text document</b>.
+     */
+    FILE_TEXT,
 
-    @Setter
-    @Getter
-    @I18n(key = "com.hemajoo.i18n.quote.${quoteNumber}.text")
-    private String quoteDescription;
+    /**
+     * Original source file for translation is a <b>resource bundle</b>.
+     */
+    RESOURCE_BUNDLE,
 
-    @Builder(setterPrefix = "with")
-    public QuoteOfTheDay(final int number)
-    {
-        this.quoteNumber = String.valueOf(number); // Only 1 or 2 at this time!
-    }
+    /**
+     * Original source file for translation is a <b>properties</b>.
+     */
+    PROPERTIES,
 }
