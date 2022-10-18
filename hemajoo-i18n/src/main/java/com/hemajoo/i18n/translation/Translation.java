@@ -39,11 +39,15 @@ public class Translation implements ITranslation
     private long executionTime;
 
     @Builder(setterPrefix = "with")
-    public Translation(final @NonNull ITranslationEntity source, final @NonNull ITranslationEntity target)
+    public Translation(final @NonNull ITranslationEntity source, final ITranslationEntity target)
     {
-        this.source = source;
-        this.targets.add(target);
         executionTime = 0L;
+        this.source = source;
+
+        if (target != null)
+        {
+            this.targets.add(target);
+        }
     }
 
     @Override
