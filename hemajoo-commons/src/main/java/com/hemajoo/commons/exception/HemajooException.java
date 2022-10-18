@@ -45,7 +45,7 @@ public class HemajooException extends Exception implements Serializable
      */
     public HemajooException(final String message)
     {
-        super(message);
+        super("❗️ " + message);
     }
 
     /**
@@ -55,6 +55,6 @@ public class HemajooException extends Exception implements Serializable
      */
     public HemajooException(final String message, final Exception exception)
     {
-        super(message, exception);
+        super("❗️ " + message, exception);
     }
 }

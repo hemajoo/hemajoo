@@ -15,17 +15,18 @@
 package com.hemajoo.i18n.localization;
 
 import com.google.common.collect.Maps;
-import com.hemajoo.i18n.core.MemoryResourceBundle;
 import com.hemajoo.i18n.localization.annotation.I18n;
 import com.hemajoo.i18n.localization.context.LocalizationFieldContext;
 import com.hemajoo.i18n.localization.context.LocalizationInvocationContext;
 import com.hemajoo.i18n.localization.data.LanguageType;
-import com.hemajoo.i18n.localization.exception.LanguageException;
 import com.hemajoo.i18n.localization.exception.LocalizationException;
 import com.hemajoo.i18n.localization.exception.ResourceException;
 import com.hemajoo.i18n.localization.type.LocalizationInvocationType;
 import com.hemajoo.i18n.translation.engine.google.GoogleFreeTranslationEngine;
+import com.hemajoo.i18n.translation.entity.ITranslationEntity;
+import com.hemajoo.i18n.translation.entity.TranslationEntity;
 import com.hemajoo.i18n.translation.exception.TranslationException;
+import com.hemajoo.i18n.translation.type.TranslationEntityType;
 import com.hemajoo.utility.reflection.ReflectionHelper;
 import com.hemajoo.utility.string.StringExpander;
 import com.hemajoo.utility.string.StringExpanderException;
@@ -89,7 +90,7 @@ public final class I18nManager
     private I18nManager()
     {
         this.locale = Locale.forLanguageTag("en"); // Set the default manager's locale to english.
-        LOGGER.debug(String.format("I18nManager initialized with locale: '%s (%s)'", this.locale, this.locale.getDisplayLanguage()));
+        LOGGER.debug(String.format("☑️ I18nManager initialized with locale: '%s (%s)'", this.locale, this.locale.getDisplayLanguage()));
     }
 
     /**
@@ -100,7 +101,7 @@ public final class I18nManager
     public void setLocale(final @NonNull Locale locale)
     {
         this.locale = locale;
-        LOGGER.info(String.format("Locale set to: '%s (%s)'", this.locale, this.locale.getDisplayLanguage()));
+        LOGGER.info(String.format("☑️ Locale set to: '%s (%s)'", this.locale, this.locale.getDisplayLanguage()));
     }
 
     /**
@@ -122,36 +123,63 @@ public final class I18nManager
     }
 
     /**
-     * Retrieve a resource bundle given its name and a language. No fallback solution is accepted when invoking this service, meaning that if the resource bundle does not exist in the
-     * given language, <b>null</b> will be returned!
-     * @param resourceBundleName Resource bundle name (relative to the 'resource' folder).
+     * Create a source translation entity.
+     * @param bundleName Resource bundle name.
      * @param language Language.
-     * @return Resource bundle.
-     * @throws ResourceException Thrown in case the resource bundle cannot be found.
+     * @return Source {@link ITranslationEntity}.
+     * @throws ResourceException Thrown in case the given resource bundle cannot be found.
+     * @throws TranslationException Thrown in case an error occurred when creating the translation entity.
      */
-    public MemoryResourceBundle getBundleOrCreate(final @NonNull String resourceBundleName, final @NonNull LanguageType language, final @NonNull LanguageType referenceLanguage) throws ResourceException, LanguageException
+    public ITranslationEntity getBundleAsSourceTranslationEntity(final @NonNull String bundleName, final @NonNull LanguageType language) throws ResourceException, TranslationException
     {
-        Map<String, ResourceBundle> bundlesByName = bundles.get(language.getLocale());
-        if (bundlesByName != null)
-        {
-            ResourceBundle bundle = bundlesByName.get(resourceBundleName);
-            if (bundle != null)
-            {
-                if (bundle.getLocale().equals(language.getLocale()))
-                {
-                    return new MemoryResourceBundle(bundle, language);
-                }
-
-                return new MemoryResourceBundle(bundle, language);
-            }
-        }
-
-        throw new ResourceException(String.format("Cannot find resource bundle with name: '%s' and language: '%s'", resourceBundleName, language));
+        return TranslationEntity.builder()
+                .withLanguage(language)
+                .withObject(getBundle(bundleName, language))
+                .withEntityType(TranslationEntityType.SOURCE)
+                .build();
     }
 
-    private MemoryResourceBundle copyBundle(final @NonNull ResourceBundle bundle, final @NonNull LanguageType language) throws LanguageException
+    /**
+     * Create a target translation entity.
+     * @param bundleName Resource bundle name.
+     * @param language Language.
+     * @param source Source translation entity.
+     * @return Source {@link ITranslationEntity}.
+     * @throws ResourceException Thrown in case the given resource bundle cannot be found.
+     * @throws TranslationException Thrown in case an error occurred when creating the translation entity.
+     */
+    public ITranslationEntity getBundleAsTargetTranslationEntity(final @NonNull String bundleName, final @NonNull LanguageType language, final @NonNull ITranslationEntity source) throws ResourceException, TranslationException
     {
-        return new MemoryResourceBundle(bundle, language);
+        return TranslationEntity.builder()
+                .withLanguage(language)
+                .withObject(getBundle(bundleName, language))
+                .withSource(source)
+                .withEntityType(TranslationEntityType.TARGET)
+                .build();
+    }
+
+    /**
+     * Create a target translation entity.
+     * @param bundleName Resource bundle name.
+     * @param language Language.
+     * @param sourceBundleName Source resource bundle name.
+     * @param sourceLanguage Source language.
+     * @return Source {@link ITranslationEntity}.
+     * @throws ResourceException Thrown in case the given resource bundle cannot be found.
+     * @throws TranslationException Thrown in case an error occurred when creating the translation entity.
+     */
+    public ITranslationEntity getBundleAsTargetTranslationEntity(final @NonNull String bundleName, final @NonNull LanguageType language, final @NonNull String sourceBundleName, final @NonNull LanguageType sourceLanguage) throws ResourceException, TranslationException
+    {
+        return TranslationEntity.builder()
+                .withLanguage(language)
+                .withObject(getBundle(bundleName, language))
+                .withSource(TranslationEntity.builder()
+                        .withEntityType(TranslationEntityType.SOURCE)
+                        .withLanguage(sourceLanguage)
+                        .withObject(getBundle(sourceBundleName, sourceLanguage))
+                        .build())
+                .withEntityType(TranslationEntityType.TARGET)
+                .build();
     }
 
     /**
@@ -246,17 +274,6 @@ public final class I18nManager
             throw new LocalizationException(e.getMessage());
         }
     }
-
-//    /**
-//     * Localize a resource.
-//     * @param locale Locale.
-//     * @return Localized value.
-//     * @throws LocalizationException Thrown to indicate an error occurred while trying to localize a resource.
-//     */
-//    public String localize(final Locale locale) throws LocalizationException
-//    {
-//        return localize(null, locale != null ? locale : this.locale);
-//    }
 
     /**
      * Localize a resource.
@@ -391,7 +408,7 @@ public final class I18nManager
         {
             if (!currentLocale.getDisplayLanguage().equals(locale.getDisplayLanguage()))
             {
-                LOGGER.warn(String.format("No resource bundle: '%s', language-tag: '%s', language: '%s' found!",
+                LOGGER.warn(String.format("⚠️ No resource bundle: '%s', language-tag: '%s', language: '%s' found!",
                         bundle.getBaseBundleName(), locale.toLanguageTag(), locale.getDisplayLanguage()));
             }
 
@@ -783,7 +800,7 @@ public final class I18nManager
                 {
                     throw new LocalizationException(
                             String.format(
-                                    "Cannot find key: '%s' in bundle: '%s' for locale: '%s'",
+                                    "❗️ Cannot find key: '%s' in bundle: '%s' for locale: '%s'",
                                     key,
                                     filePath,
                                     currentLocale));
