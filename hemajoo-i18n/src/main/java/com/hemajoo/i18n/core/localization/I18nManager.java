@@ -20,9 +20,8 @@ import com.hemajoo.i18n.core.annotation.I18n;
 import com.hemajoo.i18n.core.exception.ResourceException;
 import com.hemajoo.i18n.core.localization.data.LanguageException;
 import com.hemajoo.i18n.core.localization.data.LanguageType;
-import com.hemajoo.i18n.core.translation.ITranslator;
-import com.hemajoo.i18n.core.translation.engine.google.GoogleFreeTranslator;
 import com.hemajoo.i18n.translation.core.TranslationException;
+import com.hemajoo.i18n.translation.core.engine.google.GoogleFreeTranslationEngine;
 import com.hemajoo.utility.reflection.ReflectionHelper;
 import com.hemajoo.utility.string.StringExpander;
 import com.hemajoo.utility.string.StringExpanderException;
@@ -69,7 +68,7 @@ public final class I18nManager
     /**
      * <b>Google</b> free translation processor.
      */
-    private final ITranslator translationProcessor = new GoogleFreeTranslator();
+    private final GoogleFreeTranslationEngine translationEngine = new GoogleFreeTranslationEngine();
 
     /**
      * Return the unique instance of the <b>I18nManager</b>.
@@ -821,6 +820,6 @@ public final class I18nManager
     @Synchronized
     public String translate(final @NonNull LanguageType source, final @NonNull LanguageType target, final @NonNull String text) throws TranslationException
     {
-        return GoogleFreeTranslator.translate(source, target, text);
+        return translationEngine.translateDirect(source, target, text);
     }
 }
