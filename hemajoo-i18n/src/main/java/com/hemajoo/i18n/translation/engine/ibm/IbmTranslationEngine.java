@@ -18,6 +18,7 @@ import com.hemajoo.commons.exception.NotYetImplementedException;
 import com.hemajoo.i18n.localization.data.LanguageType;
 import com.hemajoo.i18n.translation.ITranslation;
 import com.hemajoo.i18n.translation.engine.AbstractTranslationEngine;
+import com.hemajoo.i18n.translation.entity.ITranslationEntity;
 import com.hemajoo.i18n.translation.exception.TranslationException;
 import com.hemajoo.i18n.translation.type.TranslationProviderType;
 import lombok.NonNull;
@@ -49,7 +50,13 @@ public final class IbmTranslationEngine extends AbstractTranslationEngine
     }
 
     @Override
-    public String extractTranslation(final @NonNull HttpResponse response) throws TranslationException
+    public void translate(final @NonNull ITranslationEntity entity) throws TranslationException
+    {
+        super.translate(entity);
+    }
+
+    @Override
+    public String processEntryResponse(final @NonNull HttpResponse response) throws TranslationException
     {
         return getRawText(response).replace("[\"", "").replace("\"]", ""); // Google Free translation API format!
     }

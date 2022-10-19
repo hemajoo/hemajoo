@@ -16,6 +16,7 @@ package com.hemajoo.i18n.translation.engine;
 
 import com.hemajoo.i18n.localization.data.LanguageType;
 import com.hemajoo.i18n.translation.ITranslation;
+import com.hemajoo.i18n.translation.entity.ITranslationEntity;
 import com.hemajoo.i18n.translation.exception.TranslationException;
 import lombok.NonNull;
 import org.apache.http.HttpResponse;
@@ -29,18 +30,33 @@ public interface ITranslationEngine
     void setTranslation(final @NonNull ITranslation translation);
 
     /**
-     * Extract the translated text from the response.
+     * Process the raw response after an entry has been translated.
      * @param response Response.
      * @return Translated text.
      * @throws TranslationException Thrown in case an error occurred while trying to extract the response.
      */
-    String extractTranslation(final @NonNull HttpResponse response) throws TranslationException;
+    String processEntryResponse(final @NonNull HttpResponse response) throws TranslationException;
 
     /**
-     * Translate.
+     * Translate the {@link ITranslation} contained instance.
      * @throws TranslationException Thrown in case an error occurred while trying to translate some text.
      */
     void translate() throws TranslationException;
 
+    /**
+     * Translate a given entity.
+     * @param entity Entity to translate.
+     * @throws TranslationException Thrown in case an error occurred while trying to translate an entity.
+     */
+    void translate(final @NonNull ITranslationEntity entity) throws TranslationException;
+
+    /**
+     * Directly translate some text.
+     * @param source Source language.
+     * @param target Target language.
+     * @param text Text.
+     * @return Translated text.
+     * @throws TranslationException Thrown in case an error occurred while trying to translate some text.
+     */
     String translateDirect(@NonNull LanguageType source, @NonNull LanguageType target, @NonNull String text) throws TranslationException;
 }

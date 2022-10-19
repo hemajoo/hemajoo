@@ -119,7 +119,7 @@ public abstract class AbstractTranslationEngine implements ITranslationEngine
             if (result.getStatusCode() == HttpStatus.SC_OK)
             {
                 LOGGER.trace(String.format("🌏 Direct translation from (%s) to (%s) took %d ms.", source.getLocale().toLanguageTag(),  target.getLocale().toLanguageTag(), Duration.between(start, Instant.now()).toMillis()));
-                return extractTranslation(response);
+                return processEntryResponse(response);
             }
             else
             {
@@ -141,21 +141,36 @@ public abstract class AbstractTranslationEngine implements ITranslationEngine
         {
             for (ITranslationEntity entity : translation.getTargetEntities())
             {
-                LOGGER.debug(String.format(
-                        "🌏 Entity of type: %s with %d entries submitted for translation from: %s to: %s using %s translation engine",
-                        entity.getFileType(),
-                        entity.getEntries().size(),
-                        translation.getSourceEntity().getLanguage(),
-                        entity.getLanguage(),
-                        providerType));
-
-                processEntity(entity);
-
-                translation.addExecutionTime(entity.getExecutionTime());
-                LOGGER.debug(String.format("🌏 %s entries translated to language (%s) in %s ms", entity.getEntries().size(), entity.getLanguage().getLocale().toLanguageTag(), entity.getExecutionTime()));
+                translate(entity);
             }
+        }
+    }
 
-            LOGGER.debug(String.format("🌏 A total of: %s entries translated in %s ms", translation.countEntities(), translation.getExecutionTime()));
+    @Override
+    public void translate(final @NonNull ITranslationEntity entity) throws TranslationException
+    {
+        if (translation != null && translation.needTranslation())
+        {
+            for (ITranslationEntity element : translation.getTargetEntities())
+            {
+                if (element.getLanguage() == entity.getLanguage())
+                {
+                    LOGGER.debug(String.format(
+                            "🌏 Entity of type: %s with %d entries submitted for translation from: %s to: %s using %s translation engine",
+                            entity.getFileType(),
+                            entity.getEntries().size(),
+                            translation.getSourceEntity().getLanguage(),
+                            entity.getLanguage(),
+                            providerType));
+
+                    processEntity(entity);
+
+                    translation.addExecutionTime(entity.getExecutionTime());
+                    LOGGER.debug(String.format("🌏 %s entries translated to language (%s) in %s ms", entity.getEntries().size(), entity.getLanguage().getLocale().toLanguageTag(), entity.getExecutionTime()));
+                }
+
+                LOGGER.debug(String.format("🌏 A total of: %s entries translated in %s ms", translation.countEntities(), translation.getExecutionTime()));
+            }
         }
     }
 
@@ -195,7 +210,7 @@ public abstract class AbstractTranslationEngine implements ITranslationEngine
             if (result.getStatusCode() == HttpStatus.SC_OK)
             {
                 // Update the entry
-                entry.setValue(extractTranslation(response));
+                entry.setValue(processEntryResponse(response));
                 entry.setTranslated(true);
                 entry.setConfidence(1.0f);
                 entry.setProviderType(providerType);
@@ -216,7 +231,7 @@ public abstract class AbstractTranslationEngine implements ITranslationEngine
     }
 
     @Override
-    public String extractTranslation(final @NonNull HttpResponse response) throws TranslationException
+    public String processEntryResponse(final @NonNull HttpResponse response) throws TranslationException
     {
         return getRawText(response).replace("[\"", "").replace("\"]", "");
     }

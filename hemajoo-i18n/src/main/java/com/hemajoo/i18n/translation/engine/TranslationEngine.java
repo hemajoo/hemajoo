@@ -20,13 +20,14 @@ import com.hemajoo.i18n.translation.engine.azure.AzureTranslationEngine;
 import com.hemajoo.i18n.translation.engine.google.GoogleFreeTranslationEngine;
 import com.hemajoo.i18n.translation.engine.google.GoogleTranslationEngine;
 import com.hemajoo.i18n.translation.engine.ibm.IbmTranslationEngine;
+import com.hemajoo.i18n.translation.entity.ITranslationEntity;
 import com.hemajoo.i18n.translation.exception.TranslationException;
 import com.hemajoo.i18n.translation.type.TranslationProviderType;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.http.HttpResponse;
 
-public class TranslationEngine implements ITranslationEngine
+public final class TranslationEngine implements ITranslationEngine
 {
     @Getter
     private final ITranslationEngine engine;
@@ -52,7 +53,7 @@ public class TranslationEngine implements ITranslationEngine
                 break;
 
             default:
-                throw new TranslationException(String.format("❗️ Unsupported translation provider: %s!", provider));
+                throw new TranslationException(String.format("Unsupported translation provider: %s!", provider));
         }
     }
 
@@ -63,15 +64,21 @@ public class TranslationEngine implements ITranslationEngine
     }
 
     @Override
-    public String extractTranslation(@NonNull HttpResponse response) throws TranslationException
+    public String processEntryResponse(@NonNull HttpResponse response) throws TranslationException
     {
-        return engine.extractTranslation(response);
+        return engine.processEntryResponse(response);
     }
 
     @Override
     public void translate() throws TranslationException
     {
         engine.translate();
+    }
+
+    @Override
+    public void translate(@NonNull ITranslationEntity entity) throws TranslationException
+    {
+        engine.translate(entity);
     }
 
     @Override
