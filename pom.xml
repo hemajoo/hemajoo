@@ -74,12 +74,12 @@
         <version.plugin.maven.jacoco>0.8.8</version.plugin.maven.jacoco>
 
         <!-- Dependencies version properties -->
-        <version.springdoc.openapi>1.6.6</version.springdoc.openapi>                                                <!-- Last updated: 2022-09-21 -->
+        <version.springdoc.openapi>1.6.6</version.springdoc.openapi>
         <version.google.guava>31.1-jre</version.google.guava>
-        <version.junit.jupiter>5.9.1</version.junit.jupiter>                                                        <!-- Last updated: 2022-09-21 -->
-        <version.junit.platform.launcher>1.9.1</version.junit.platform.launcher>                                    <!-- Last updated: 2022-10-16 -->
-        <version.datafaker>1.6.0</version.datafaker>                                                                <!-- Last updated: 2022-10-16 -->
-<!--        <version.apache.log4j>2.19.0</version.apache.log4j>                                                         &lt;!&ndash; Last updated: 2022-10-16 &ndash;&gt;-->
+        <version.junit.jupiter>5.9.1</version.junit.jupiter>
+        <version.junit.platform.launcher>1.9.1</version.junit.platform.launcher>
+        <version.datafaker>1.6.0</version.datafaker>
+        <version.apache.tika>1.0.18</version.apache.tika>
         <version.apache.commons.lang.3>3.9</version.apache.commons.lang.3>
         <version.apache.commons.io>2.11.0</version.apache.commons.io>
         <version.apache.commons.validator>1.7</version.apache.commons.validator>
@@ -87,22 +87,11 @@
         <version.assertj>3.23.1</version.assertj>
         <version.mapstruct>1.5.2.Final</version.mapstruct>
         <version.lombok.mapstruct>0.2.0</version.lombok.mapstruct>
-<!--        <version.flyway>8.5.13</version.flyway>-->
-<!--        <version.apache.tika>1.0.18</version.apache.tika>-->
-<!--        <version.javers>3.1.0</version.javers>-->
-        <version.testcontainers>1.17.5</version.testcontainers>                                                     <!-- Last updated: 2022-10-08 -->
+        <version.testcontainers>1.17.5</version.testcontainers>
         <version.db.h2>2.1.212</version.db.h2>
         <version.db.postgresql>42.5.0</version.db.postgresql>
-<!--        <version.spring.content>2.5.0</version.spring.content>-->
-<!--        <version.amazon.awssdk>2.17.278</version.amazon.awssdk>                                                     &lt;!&ndash; Last updated: 2022-09-21 &ndash;&gt;-->
-<!--        <version.hibernate.validator>7.0.4.Final</version.hibernate.validator>-->
-<!--        <version.jakarta.el>4.0.1</version.jakarta.el>-->
-<!--        <version.imageio>3.8.3</version.imageio>-->
-<!--        <version.imagej>1.53t</version.imagej>-->
-<!--        <version.hibernate.validator>1.0.0</version.hibernate.validator>-->
-
-        <!-- Flyway properties -->
-        <flyway.locations>classpath:/db/migration/h2</flyway.locations>
+        <version.imageio>3.9.3</version.imageio>
+        <version.imagej>1.53u</version.imagej>
 
         <!-- Sonar properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -424,10 +413,24 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.lafa.tikaNoExternal</groupId>
+                <artifactId>tika-core</artifactId>
+                <version>${version.apache.tika}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>com.twelvemonkeys.imageio</groupId>
+                <artifactId>imageio</artifactId>
+                <version>${version.imageio}</version>
+                <type>pom</type>
+            </dependency>
 
-
-
+            <dependency>
+                <groupId>net.imagej</groupId>
+                <artifactId>ij</artifactId>
+                <version>${version.imagej}</version>
+            </dependency>
 
 
 
