@@ -54,8 +54,7 @@
         <test.pattern.integration>**/*IntegrationTest.java</test.pattern.integration>
 
         <!-- Spring  properties -->
-        <version.spring.boot>2.7.4</version.spring.boot>                                                            <!-- Last updated: 2022-10-16 -->
-<!--        <log4j2.version>2.19.0</log4j2.version> &lt;!&ndash; Forces Spring to use this version of log4j2 &ndash;&gt;                &lt;!&ndash; Last updated: 2022-10-16 &ndash;&gt;-->
+        <version.spring.boot>2.7.4</version.spring.boot>
 
         <!-- Maven plugins version properties. -->
         <version.maven.plugin.compiler>3.10.1</version.maven.plugin.compiler>
@@ -97,14 +96,13 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../hemajoo-coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <sonar.language>java</sonar.language>
-        <sonar.java.libraries>target/classes</sonar.java.libraries>
         <sonar.organization>hemajoo</sonar.organization>
         <sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
         <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
         <sonar.projectName>Hemajoo Library</sonar.projectName>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.exclusions>**/resources/media/**/*,**/target/site/**/*,**/target/classes/media/**/*,**/apidocs/**/*,**/test/resources/**/*.jar,**/test-classes/media/**/*</sonar.exclusions>
-        <sonar.coverage.exclusions>**/test/java/**/*</sonar.coverage.exclusions>
+        <sonar.exclusions>**/resources/media/**/*,**/target/site/**/*,**/target/classes/media/**/*,**/apidocs/**/*,*.jar,**/test-classes/media/**/*</sonar.exclusions>
+        <sonar.coverage.exclusions>**/test/java/**/*,*.jar</sonar.coverage.exclusions>
         <sonar.java.binaries>target/classes/</sonar.java.binaries>
         <sonar.java.libraries>**/target/dependency/*.jar</sonar.java.libraries>
 
@@ -617,6 +615,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${version.plugin.maven.jacoco}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>*.jar</exclude>
+                        <exclude>**/media/**/*</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
 
             <!-- SONAR: The Maven Project Sonar plugin is used to execute static analysis on the code. -->
