@@ -180,4 +180,10 @@ public class Translation implements ITranslation
         targets.clear();
     }
 
+    @Override
+    public final ITranslationEntity getByName(final @NonNull String name)
+    {
+        return targets.stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null);
+    }
+
 }

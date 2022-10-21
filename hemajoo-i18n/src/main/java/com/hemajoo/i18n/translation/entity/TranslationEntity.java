@@ -41,6 +41,12 @@ public class TranslationEntity implements ITranslationEntity
     public static final String LINE_FEED = "\n";
 
     /**
+     * Translation object name.
+     */
+    @Getter
+    private final String name;
+
+    /**
      * Language.
      */
     @Getter
@@ -99,6 +105,7 @@ public class TranslationEntity implements ITranslationEntity
 
     /**
      * Create a translation entity.
+     * @param name Name <i>(can be the name of the underlying file this translation entity is used for)</i>.<br> If none is provided, a default one will be generated.
      * @param language Language.
      * @param entityType {@link TranslationEntityType} defining if it's a <b>source</b> or <b>target</b> translation entity.
      * @param object Object representing the source of this translation entity, if one exist.
@@ -106,8 +113,9 @@ public class TranslationEntity implements ITranslationEntity
      * @throws TranslationException Thrown if an error occurred with a translation entity.
      */
     @Builder(setterPrefix = "with")
-    public TranslationEntity(LanguageType language, final @NonNull TranslationEntityType entityType, final Object object, final ITranslationEntity source) throws TranslationException
+    public TranslationEntity(final String name, LanguageType language, final @NonNull TranslationEntityType entityType, final Object object, final ITranslationEntity source) throws TranslationException
     {
+        this.name = name != null ? name : UUID.randomUUID().toString();
         this.language = language;
         this.object = object;
         this.type = entityType;

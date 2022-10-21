@@ -32,6 +32,12 @@ import java.util.Properties;
 public interface ITranslationEntity extends Serializable
 {
     /**
+     * Returns the translation entity name.
+     * @return Name.
+     */
+    String getName();
+
+    /**
      * Return the language type.
      * @return {@link LanguageType}.
      */

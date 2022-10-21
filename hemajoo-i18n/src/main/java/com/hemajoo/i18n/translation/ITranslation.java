@@ -85,7 +85,21 @@ public interface ITranslation extends Serializable
      */
     void addTargetEntity(final @NonNull ITranslationEntity entity);
 
+    /**
+     * Remove the target translation entity given its language.
+     * @param language Language.
+     */
     void removeTargetEntity(LanguageType language);
 
+    /**
+     * Clear all target entities.
+     */
     void clearTargetEntities();
+
+    /**
+     * Return a target translation entity given its name.
+     * @param name Name.
+     * @return {@link ITranslationEntity} if found, <b>null</b> otherwise.
+     */
+    ITranslationEntity getByName(final @NonNull String name);
 }
