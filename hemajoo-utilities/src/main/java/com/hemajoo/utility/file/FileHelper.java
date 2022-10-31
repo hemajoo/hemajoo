@@ -18,11 +18,13 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.tika.Tika;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -94,6 +96,20 @@ public class FileHelper
         }
 
         return Paths.get(directory + File.separatorChar + filename);
+    }
+
+    public static InputStream getFromModule(final @NonNull String moduleName, final @NonNull String filename) throws FileException
+    {
+        Module module = ModuleLayer.boot().findModule(filename).orElseThrow();
+
+        try
+        {
+            return module.getResourceAsStream(moduleName + "/" + filename);
+        }
+        catch (IOException e)
+        {
+            throw new FileException(e);
+        }
     }
 
     /**
@@ -196,7 +212,7 @@ public class FileHelper
         try
         {
             // If not successful, then try to load it from a JAR file.
-            path = createTemporaryFile();
+            path = createTemporaryFile(filename);
             Files.copy(Objects.requireNonNull(FileHelper.class.getResourceAsStream(filename)), path, StandardCopyOption.REPLACE_EXISTING);
             file = path.toFile();
             isTemporaryFile = true;
@@ -206,7 +222,7 @@ public class FileHelper
             try
             {
                 // Still not successful, then try to load it from an URL.
-                path = createTemporaryFile();
+                path = createTemporaryFile(filename);
                 Files.copy(new URL(filename).openStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 file = path.toFile();
                 isTemporaryFile = true;
@@ -297,7 +313,51 @@ public class FileHelper
      * @return {@link Path} representing the temporary file path, <b>null</b> otherwise.
      * @throws FileException Thrown to indicate an error occurred while creating the temporary file.
      */
-    public static Path createTemporaryFile() throws FileException
+    public Path createTemporaryFile(final @NonNull String name) throws FileException
+    {
+        File file;
+        Path path = null;
+        String extension = FilenameUtils.getExtension(name);
+
+        try
+        {
+            if (SystemUtils.IS_OS_UNIX)
+            {
+                FileAttribute<Set<PosixFilePermission>> attr = PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString(POSIX_FILE_ATTRIBUTES));
+                path = Files.createTempFile(FilenameUtils.getBaseName(name), "." + extension, attr);
+            }
+            else
+            {
+                path = Files.createTempFile(FilenameUtils.getBaseName(name), "." + extension);
+                file = path.toFile();
+                if (!file.setReadable(true, true))
+                {
+                    throw new FileException(String.format("Cannot set file: %s as readable!", file.getPath()));
+                }
+                if (!file.setWritable(true, true))
+                {
+                    throw new FileException(String.format("Cannot set file: %s as writable!", file.getPath()));
+                }
+                if (!file.setExecutable(true, true))
+                {
+                    throw new FileException(String.format("Cannot set file: %s as executable!", file.getPath()));
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            throw new FileException(e);
+        }
+
+        return path;
+    }
+
+    /**
+     * Create a temporary file.
+     * @return {@link Path} representing the temporary file path, <b>null</b> otherwise.
+     * @throws FileException Thrown to indicate an error occurred while creating the temporary file.
+     */
+    public Path createTemporaryFile() throws FileException
     {
         File file;
         Path path = null;

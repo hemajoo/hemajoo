@@ -19,6 +19,7 @@ import com.hemajoo.utility.graphics.image.ImageFileType;
 import com.hemajoo.utility.graphics.image.ImageScaleType;
 import lombok.NonNull;
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -72,6 +73,12 @@ public interface IPicture
      * @throws ImageException Thrown to indicate an error occurred when trying to load a file containing an image.
      */
     void load(final @NonNull String filename) throws ImageException;
+
+    /**
+     * Convert the picture to an image icon.
+     * @return {@link ImageIcon}.
+     */
+    ImageIcon toImageIcon();
 
     /**
      * Save/update an existing file containing a picture.

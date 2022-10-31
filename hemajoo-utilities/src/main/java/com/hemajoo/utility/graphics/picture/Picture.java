@@ -27,6 +27,7 @@ import lombok.*;
 import lombok.extern.log4j.Log4j2;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
@@ -70,13 +71,14 @@ public final class Picture implements IPicture
      * Create a picture.
      * @param file File containing the image.
      * @param filename Filename containing the image.
+     * @param typeLoader Class type used as loader to access the resource.
      * @param scaleType Scaling type to apply when loading the image.
      * @param width Width of the image when loading.
      * @param height Height of the image when loading.
      * @throws ImageException Thrown to indicate an error occurred while trying to load the image.
      */
     @Builder(setterPrefix = "with")
-    public Picture(final File file, final String filename, final ImageScaleType scaleType, final int width, final int height) throws ImageException
+    public Picture(final File file, final String filename, final Class<?> typeLoader, final ImageScaleType scaleType, final int width, final int height) throws ImageException
     {
         if (filename == null && file == null)
         {
@@ -87,7 +89,14 @@ public final class Picture implements IPicture
         {
             if (filename != null)
             {
-                this.file = FileHelper.getFile(filename);
+                if (typeLoader != null)
+                {
+                    this.file = FileHelper.getFile(filename, typeLoader);
+                }
+                else
+                {
+                    this.file = FileHelper.getFile(filename);
+                }
             }
             else
             {
@@ -155,6 +164,12 @@ public final class Picture implements IPicture
         {
             throw new ImageException(String.format("Cannot load image file: '%s' due to: %s", filename, e.getMessage()));
         }
+    }
+
+    @Override
+    public final ImageIcon toImageIcon()
+    {
+        return new ImageIcon(bufferedImage);
     }
 
     @Override
